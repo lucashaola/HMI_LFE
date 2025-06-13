@@ -25,6 +25,7 @@ const db = new sqlite3.Database('users.db', (err) => {
             name TEXT NOT NULL,
             total_progress INTEGER DEFAULT 0,
             unlocked_categories TEXT DEFAULT '[]',
+            preferences TEXT DEFAULT '[]',
             total_bonusPoints_score INTEGER DEFAULT 0 CHECK (total_bonusPoints_score >= 0 AND total_bonusPoints_score <= 100),
             assistance_kilometer INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -92,8 +93,8 @@ app.post('/api/users', (req, res) => {
     const {name, identificationCode} = req.body;
 
     db.run(
-        `INSERT INTO profiles (identification_code, name, unlocked_categories, total_bonusPoints_score, assistance_kilometer) VALUES (?, ?, ?, 0, 0)`,
-        [identificationCode, name, JSON.stringify([])],
+        `INSERT INTO profiles (identification_code, name, unlocked_categories, preferences, total_bonusPoints_score, assistance_kilometer) VALUES (?, ?, ?, ?, 0, 0)`,
+        [identificationCode, name, JSON.stringify([]), JSON.stringify([])],
         function (err) {
             if (err) {
                 res.status(400).json({error: err.message});
@@ -103,6 +104,7 @@ app.post('/api/users', (req, res) => {
             res.json({
                 identification_code: identificationCode,
                 name: name,
+                preferences: [],
                 total_bonusPoints_score: 0,
                 assistance_kilometer: 0
             });
