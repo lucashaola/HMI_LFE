@@ -124,7 +124,7 @@ app.get('/api/users/:code', (req, res) => {
     );
 });
 
-// Test Questions Handeling
+// Test Questions Handling
 app.post('/api/test/:code/update', (req, res) => {
     const { code } = req.params;
     const { category, questionIndex, isCorrect } = req.body;
@@ -305,7 +305,7 @@ app.post('/api/users/:code/unlock-category/:category', (req, res) => {
     });
 });
 
-// Saved Slides Handeling
+// Saved Slides Handling
 app.post('/api/users/:code/save-page', (req, res) => {
     const {code} = req.params;
     const {page, slideIndex, pageType} = req.body;
@@ -455,7 +455,7 @@ app.get('/api/slide-content/:category/:index', (req, res) => {
 
 });
 
-// Bonus Points Handeling
+// Bonus Points Handling
 app.post('/api/events', (req, res) => {
     const {identificationCode, eventType, score} = req.body;
 
@@ -615,7 +615,15 @@ function getWifiIP() {
     return '0.0.0.0';
 }
 
-const localIP = getWifiIP();
+/*const localIP = getWifiIP();
 app.listen(port, localIP, () => {
     console.log(`Server running at: http://${localIP}:${port}`);
-});
+});*/
+if (require.main === module) {
+    const localIP = getWifiIP();
+    app.listen(port, localIP, () => {
+        console.log(`Server running at: http://${localIP}:${port}`);
+    });
+}
+
+module.exports = app;

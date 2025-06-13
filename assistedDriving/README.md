@@ -97,7 +97,7 @@ Every page is associated with one or more JavaScript files for specific function
 │       ├── profile                   
 │       ├── tutorial  
 │       ├── tutorialContent                  
-│       ├── warnigns                                  
+│       ├── warnings                                  
 │       ├── welcome                   
 │   ├── views                         // HTML views for each page
 │       ├── liveSimulation                   

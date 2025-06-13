@@ -173,9 +173,9 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
         } else {
             if (await checkAllQuestionsAnsweredCorrectly()) {
                 showCompletionMessage();
-            } else{
+            } else {
                 await showTestOverview();
-            }                ``
+            }                
         }
 
     } catch (error) {
