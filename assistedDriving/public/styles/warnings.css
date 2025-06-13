@@ -1,0 +1,43 @@
+body,
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333333;
+
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.warning-overlay {
+    position: absolute;
+    top: 20px;
+    font-size: 2em;
+    background-color: rgba(255, 255, 255, 0.51);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    width: auto;
+
+    display: none;
+    z-index: 2;
+}
+
+.warning-overlay.position-left {
+    left: 20px;
+}
+
+.warning-overlay.position-middle {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.warning-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.warning-image {
+    width: 5em;
+    height: 5em;
+}

@@ -1,0 +1,10 @@
+<svg xml:space="preserve" viewBox="20.166675 15.416675 60 68.25" y="0px" x="0px" version="1.1"
+     xmlns="http://www.w3.org/2000/svg" style="max-height: 500px" width="60"
+     height="68.25">
+  <g>
+    <path d="M28,36v31c0,7.981,5.589,14,13,14h18c7.411,0,13-6.019,13-14V36h-4v31c0,5.794-3.785,10-9,10H41c-5.215,0-9-4.206-9-10V36   H28z"/>
+      <path d="M61,33h16v-4H61V19H39v10H23v4h16H61z M43,23h14v6H43V23z"/>
+      <rect height="25" width="4" y="43" x="55"/>
+      <rect height="25" width="4" y="43" x="41"/>
+  </g>
+</svg>

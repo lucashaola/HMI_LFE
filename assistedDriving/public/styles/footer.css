@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+.footer {
+    background-color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 70px;
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.flipped {
+    transform: scaleX(-1);
+}
+
+.left-section,
+.right-section {
+    display: flex;
+    align-items: center;
+    overflow: visible;
+}
+
+.footer-icon { <!-- icon-center -->
+    width: 40px;
+    height: 40px;
+    margin-right: 50px;
+}
+
+.icon-center{
+    display: flex;
+}
+
+.icon-center a:last-of-type .footer-icon {
+    margin-right: 0;
+}
+
+/* Comment out if you don't want live simulation to be clickable
+#navigationIcon {
+    opacity: 0.7;
+    pointer-events: none;
+}
+ */
+
+.icon-left,
+.icon-right {
+    width: 40px; <!-- 30px -->
+    margin: 0 5px;
+}
+
+.icon-right.flipped {
+    margin-left: 40px;
+    transform: scaleX(-1) translateY(6px);
+}
+
+.icon-left {
+    margin-right: 25px;
+    transform: translateY(5px);
+}
+
+/* Temperature Styling */
+.temperature-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-size: 2em;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.temperature-control button {
+    background: none;
+    border: none;
+    color: #FFF;
+    font-size: 30px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.temperature-control button:first-of-type {
+    margin-right: 10px;
+}
+
+.temperature-control button:last-of-type {
+    margin-left: 10px;
+}
+
+.temperature-line {
+    overflow: visible;
+    position: absolute;
+    bottom: -10px;
+}
+
+.left-line {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.right-line {
+    right: 50%;
+    transform: translateX(50%);
+}

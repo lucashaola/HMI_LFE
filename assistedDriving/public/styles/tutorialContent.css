@@ -1,0 +1,105 @@
+.blue-text {
+    color: #5473d5;
+}
+
+.green-text {
+    color: #58a860;
+}
+
+.red-text {
+    color: #c55b71;
+}
+
+.page hr,
+.main-content hr {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 2em 0;
+}
+
+.page,
+.page-active {
+    max-width: 50em;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.6;
+    width: 100%;
+    position: relative;
+}
+
+.content,
+.page {
+    display: none;
+}
+
+.content.active,
+.page-active {
+    display: block;
+}
+
+.content h1,
+.page h1 {
+    font-size: 2em;
+    margin-bottom: 30px;
+}
+
+.content p,
+.content.active p,
+.page p,
+.page-active p {
+    margin: 15px 0;
+    font-size: 1.5em;
+}
+
+.media{
+    height: auto;
+    margin: 20px auto;
+    display: block;
+    border-radius: 8px;
+
+    max-width: 25em;
+    width: 100%;
+}
+
+.small-media-row .small-media {
+    max-width: 30%;
+    align-items: center;
+}
+
+.media-row {
+    display: flex;
+    gap: 10px;
+    margin: 20px auto;
+    max-width: 50em;
+    justify-content: center;
+}
+
+.media-row .media {
+    max-width: calc(50% - 5px);
+    flex: 1;
+}
+
+.inline-media {
+    height: 1.5em;
+    width: auto;
+    display: inline;
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.bullet-points {
+    font-size: 1.5em;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.bullet-points li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.bullet-points .media {
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+}

@@ -1,0 +1,238 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body,
+html {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333333;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: whitesmoke;
+    padding: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+    color: black;
+}
+
+/* Perfect Scrollbar Styling*/
+.ps__rail-y {
+    position: fixed;
+    width: 4px !important;
+    background-color: rgba(102, 69, 69, 0.1) !important;
+    opacity: 1 !important;
+    display: block !important;
+    margin-right: var(--scrollbar-margin) !important;
+}
+
+.ps__thumb-y {
+    width: 5px !important;
+    background-color: #9f9f9f !important;
+    border-radius: 3px !important;
+    opacity: 1 !important;
+    right: 0 !important;
+
+}
+
+.scrollbar-container {
+    position: relative;
+    height: 100%;
+    padding-right: 50px;
+}
+
+.close-btn {
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    z-index: 1;
+}
+
+.close-btn {
+    margin-right: 10px;
+    height: 50px;
+    width: 50px;
+    background-color: #e1e7f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+}
+
+.close-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    margin-bottom: 120px;
+    position: relative;
+}
+
+.dot-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 50px;
+}
+
+.dot-container:last-child {
+    position: relative;
+    margin-right: 0;
+}
+
+.pagination-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 30px 0;
+    position: relative;
+    width: 100%;
+}
+
+.connecting-line {
+    width: 50px;
+    height: 5px;
+    background-color: #718db9;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+
+.connecting-line.completed {
+    background-color: #718db9;
+}
+
+.dot {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    background: #718db9;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.dot.active {
+    width: 50px;
+    height: 50px;
+    background: #4b6b9a;
+}
+
+.dot.completed::after {
+    content: '✓';
+}
+
+.dot.completed span {
+    display: none;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+
+.bookmark-btn {
+    position: fixed;
+    top: 120px;
+    transform: translateX(-50%);
+    border: none;
+    cursor: pointer;
+    height: 50px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: #e1e7f4 none;
+    z-index: 1;
+}
+
+.bookmark-icon {
+    width: 40px;
+    height: 40px;
+    color: black;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bookmark-icon .filled {
+    display: none;
+}
+
+.bookmark-btn.saved .bookmark-icon .outline {
+    display: none;
+}
+
+.bookmark-icon .outline {
+    display: block;
+}
+
+.bookmark-btn.saved .bookmark-icon {
+    color: #3c5e86;
+}
+
+.bookmark-btn.saved .bookmark-icon .filled {
+    display: block;
+}
+
+/* Page Styling in tutorialContents.css */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    position: fixed;
+    bottom: 3.75em;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: whitesmoke;
+    z-index: 1;
+}
+
+button {
+    padding: 12px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: none;
+}
+
+#nextBtn {
+    background: #718db9;
+    color: white;
+}
+
+#prevBtn {
+    background: #8e8e8e;
+    color: white;
+}
