@@ -129,16 +129,21 @@ async function showProgressOverview() {
             return;
         }
 
-        const response = await fetch(`/api/users/${identificationCode}`); // Changed endpoint
+        //const response = await fetch(`/api/users/${identificationCode}`); // Changed endpoint
+        const response = await fetch(`/api/users/${identificationCode}`);
         const userData = await response.json();
         const unlockedCategories = JSON.parse(userData.unlocked_categories || '[]');
 
-        categories = categories.map(category => ({
+        //categories = categories.map(category => ({
+        const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
+        const filtered = prefs.length > 0 ? categories.filter(c => prefs.includes(c.key)) : categories;
+        categories = filtered.map(category => ({
             ...category,
             progress: unlockedCategories.includes(category.key) ? 100 : 0
         }));
 
-        const totalProgress = Math.round((unlockedCategories.length / categories.length) * 100);
+        //const totalProgress = Math.round((unlockedCategories.length / categories.length) * 100);
+         const totalProgress = Math.round((unlockedCategories.filter(c => prefs.length === 0 || prefs.includes(c)).length / categories.length) * 100);
         const totalProgressHTML = `
             <div class="total-progress-container">
                 <div class="total-progress-bar">

@@ -4,6 +4,10 @@ function checkForExistingProfile(isButtonClick = false) {
 
     if (hasCheckedProfile && userName && !isButtonClick) {
         document.querySelector('.welcome h1').innerHTML = `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${userName}!`;
+        const code = localStorage.getItem('userCode');
+        if (code) {
+            handlePreferencesRedirect(code);
+        }
         return;
     }
 
@@ -80,6 +84,7 @@ async function createNewProfile() {
             const userData = await response.json();
             localStorage.setItem('userName', name);
             localStorage.setItem('userCode', userData.identification_code);
+            handlePreferencesRedirect(JSON.stringify(userData.preferences || []));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
@@ -102,6 +107,7 @@ async function createNewProfile() {
                     container: 'swal-container-custom'
                 }
             });
+            await handlePreferencesRedirect(userData.identification_code);
         }
     } catch (error) {
         console.error('Error creating profile:', error);
@@ -125,6 +131,20 @@ async function createNewProfile() {
 
 function generateIdentificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+async function handlePreferencesRedirect(code) {
+    try {
+        const res = await fetch(`/api/users/${code}/preferences`);
+        const data = await res.json();
+        const prefs = data.preferences ? JSON.parse(data.preferences) : [];
+        localStorage.setItem('preferences', JSON.stringify(prefs));
+        if (!prefs || prefs.length === 0) {
+            window.location.href = '/views/preferences';
+        }
+    } catch (e) {
+        console.error('Error fetching preferences:', e);
+    }
 }
 /**
  * This file handles user profile management for the application, including:
@@ -194,6 +214,7 @@ async function showExistingProfiles() {
 
             localStorage.setItem('userCode', result.value);
             localStorage.setItem('userName', selectedProfile.name);
+            handlePreferencesRedirect(JSON.stringify(selectedProfile.preferences || []));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${selectedProfile.name}!`;
@@ -214,6 +235,7 @@ async function showExistingProfiles() {
                 }
             });
             showProgressOverview();
+            await handlePreferencesRedirect(result.value);
         }
     } catch (error) {
         console.error('Error loading profiles:', error);
@@ -232,5 +254,21 @@ async function showExistingProfiles() {
                 container: 'swal-container-custom'
             }
         });
+    }
+}
+
+function handlePreferencesRedirect(prefsString) {
+    let prefs;
+    try {
+        prefs = JSON.parse(prefsString);
+        if (!Array.isArray(prefs)) {
+            prefs = [];
+        }
+    } catch (e) {
+        prefs = [];
+    }
+    localStorage.setItem('preferences', JSON.stringify(prefs));
+    if (prefs.length === 0) {
+        window.location.href = '/views/preferences';
     }
 }

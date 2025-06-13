@@ -1,5 +1,8 @@
 let contentPS;
-const totalPages = Object.keys(tutorialContent).length;
+//const totalPages = Object.keys(tutorialContent).length;
+const selectedCategories = JSON.parse(localStorage.getItem('preferences') || '[]');
+const orderedKeys = selectedCategories.length > 0 ? selectedCategories : Object.keys(tutorialContent);
+const totalPages = orderedKeys.length;
 let currentPage = 1;
 
 /** Generates pagination dots and connecting lines to visually represent the tutorial's progress.*/
@@ -176,7 +179,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentContainer = document.querySelector('.content-container');
 
     if (window.location.pathname.includes('/views/overview')) {
-        Object.keys(tutorialContent).forEach((sectionId, index) => {
+        //Object.keys(tutorialContent).forEach((sectionId, index) => {
+        orderedKeys.forEach((sectionId, index) => {
             const pageDiv = document.createElement('div');
             pageDiv.className = 'page';
             if (index === 0) pageDiv.classList.add('page-active');

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Präferenzen</title>
+    <link rel="icon" href="../../assets/icons/shared/TUM.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../styles/welcome.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
+    <link rel="stylesheet" href="../../assets/vendor/sweetalert2.min.css">
+    <script src="../../assets/vendor/sweetalert2.js"></script>
+</head>
+<body>
+<div class="header">
+    <h1>Ihre Präferenzen</h1>
+</div>
+<div class="main-content">
+    <form id="preferencesForm" class="preferences-form">
+        <!-- preferences.js will generate checkboxes here -->
+    </form>
+    <div class="button-container" style="margin-top:20px;">
+        <button type="button" id="savePreferences">Speichern</button>
+        <button type="button" onclick="window.location.href='/views/welcome'">Zurück</button>
+    </div>
+</div>
+<script src="../../assets/js/script.js"></script>
+<script src="../../assets/js/categoryQuestions.js"></script>
+<script src="../../assets/js/preferences.js"></script>
+</body>
+</html>

@@ -238,11 +238,17 @@ async function showCompletionPopup() {
 /** Initializes sidebar, main content, and PerfectScrollbar when the page loads.
 Also handles navigation and completion popups when the user attempts to leave the tutorial.*/
 document.addEventListener('DOMContentLoaded', function () {
+    const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
+    if (prefs.length > 0) {
+        categories = categories.filter(c => prefs.includes(c.key));
+    }
     createSidebar(categories);
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
-    Object.keys(tutorialContent).forEach(sectionId => {
+    //Object.keys(tutorialContent).forEach(sectionId => {
+    const contentKeys = prefs.length > 0 ? prefs : Object.keys(tutorialContent);
+    contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'content';
         contentDiv.id = sectionId;
