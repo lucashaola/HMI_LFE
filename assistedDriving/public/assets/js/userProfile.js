@@ -80,6 +80,7 @@ async function createNewProfile() {
             const userData = await response.json();
             localStorage.setItem('userName', name);
             localStorage.setItem('userCode', userData.identification_code);
+            handlePreferencesRedirect(JSON.stringify(userData.preferences || []));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
@@ -191,9 +192,10 @@ async function showExistingProfiles() {
         if (result.isConfirmed) {
             const response = await fetch(`/api/users/${result.value}`);
             const selectedProfile = await response.json();
-
+            
             localStorage.setItem('userCode', result.value);
             localStorage.setItem('userName', selectedProfile.name);
+            handlePreferencesRedirect(JSON.stringify(selectedProfile.preferences || []));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${selectedProfile.name}!`;
@@ -232,5 +234,21 @@ async function showExistingProfiles() {
                 container: 'swal-container-custom'
             }
         });
+    }
+}
+
+function handlePreferencesRedirect(prefsString) {
+    let prefs;
+    try {
+        prefs = JSON.parse(prefsString);
+        if (!Array.isArray(prefs)) {
+            prefs = [];
+        }
+    } catch (e) {
+        prefs = [];
+    }
+    localStorage.setItem('preferences', JSON.stringify(prefs));
+    if (prefs.length === 0) {
+        window.location.href = '/views/preferences';
     }
 }
