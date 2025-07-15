@@ -376,6 +376,11 @@ html {
     color: white;
 }
 
+.score-mode {
+    margin-top: 10px;
+    font-size: 1.4em;
+}
+
 .progress-ring {
     transform: rotate(-90deg);
     width: 32px;

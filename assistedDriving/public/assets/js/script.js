@@ -34,6 +34,12 @@ function initializeWelcomeScreen() {
         }
 
         showProgressOverview();
+
+        const score = parseInt(localStorage.getItem('userScore') || '0', 10);
+        const modeDiv = document.createElement('div');
+        modeDiv.className = 'score-mode';
+        modeDiv.textContent = score >= 9 ? 'Modo avançado ativado' : 'Modo básico ativado';
+        welcomeHeading.insertAdjacentElement('afterend', modeDiv);
     }
 
     const userSwitch = document.getElementById("userSwitch");
