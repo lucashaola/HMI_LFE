@@ -1,7 +1,7 @@
 let contentPS;
 //const totalPages = Object.keys(tutorialContent).length;
-const selectedCategories = JSON.parse(localStorage.getItem('preferences') || '[]');
-const orderedKeys = selectedCategories.length > 0 ? selectedCategories : Object.keys(tutorialContent);
+const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+const orderedKeys = Object.keys(tutorialContent);
 const totalPages = orderedKeys.length;
 let currentPage = 1;
 

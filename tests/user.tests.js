@@ -19,3 +19,26 @@ describe('POST /api/users', () => {
     );
   });
 });
+// Test storing and retrieving user preferences
+describe('Preferences API', () => {
+  it('stores and retrieves preferences for a user', async () => {
+    const code = Date.now().toString();
+    // create user
+    await request(app)
+      .post('/api/users')
+      .send({ name: 'Pref Test User', identificationCode: code });
+
+    const prefs = { theme: 'dark', layout: { sidebar: true } };
+    const postRes = await request(app)
+      .post(`/api/users/${code}/preferences`)
+      .send({ preferences: prefs });
+
+    expect(postRes.status).toBe(200);
+    expect(postRes.body).toEqual({ success: true });
+
+    const getRes = await request(app).get(`/api/users/${code}/preferences`);
+
+    expect(getRes.status).toBe(200);
+    expect(getRes.body).toEqual({ preferences: JSON.stringify(prefs) });
+  });
+});

@@ -6,7 +6,7 @@ function checkForExistingProfile(isButtonClick = false) {
         document.querySelector('.welcome h1').innerHTML = `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${userName}!`;
         const code = localStorage.getItem('userCode');
         if (code) {
-            handlePreferencesRedirect(code);
+            fetchAndRedirectPreferences(code);
         }
         return;
     }
@@ -107,7 +107,7 @@ async function createNewProfile() {
                     container: 'swal-container-custom'
                 }
             });
-            await handlePreferencesRedirect(userData.identification_code);
+            await fetchAndRedirectPreferences(userData.identification_code);
         }
     } catch (error) {
         console.error('Error creating profile:', error);
@@ -133,7 +133,7 @@ function generateIdentificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-async function handlePreferencesRedirect(code) {
+async function fetchAndRedirectPreferences(code) {
     try {
         const res = await fetch(`/api/users/${code}/preferences`);
         const data = await res.json();
@@ -235,7 +235,7 @@ async function showExistingProfiles() {
                 }
             });
             showProgressOverview();
-            await handlePreferencesRedirect(result.value);
+            await fetchAndRedirectPreferences(result.value);
         }
     } catch (error) {
         console.error('Error loading profiles:', error);
@@ -260,15 +260,12 @@ async function showExistingProfiles() {
 function handlePreferencesRedirect(prefsString) {
     let prefs;
     try {
-        prefs = JSON.parse(prefsString);
-        if (!Array.isArray(prefs)) {
-            prefs = [];
-        }
+    prefs = JSON.parse(prefsString || '{}');
     } catch (e) {
-        prefs = [];
+        prefs = {};
     }
     localStorage.setItem('preferences', JSON.stringify(prefs));
-    if (prefs.length === 0) {
+    if (Object.keys(prefs).length === 0) {
         window.location.href = '/views/preferences';
     }
 }
