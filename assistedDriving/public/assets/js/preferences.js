@@ -5,74 +5,88 @@ const assistanceSystems = [
     'Stauassistent',
     'Ampelerkennung',
     'Spurführungsassistent',
-    'Spurwechselassistent',
-    'Notbremsassistent',
-    'Deaktivierung',
-    'Risiken und Verantwortung'
+    'Spurwechselassistent'
 ];
 
-const experienceLevels = [
-    'Keine Erfahrung',
-    'Etwas Erfahrung',
-    'Vertraut',
-    'Fortgeschritten',
-    'Experte'
-];
+const systemIdMap = {
+    'Aktivierung': 'aktivierung',
+    'Verkehrszeichenassistent': 'verkehrszeichen',
+    'Abstandsregeltempomat': 'geschwindigkeit',
+    'Stauassistent': 'stau',
+    'Ampelerkennung': 'ampelerkennung',
+    'Spurführungsassistent': 'spurführung',
+    'Spurwechselassistent': 'spurwechsel'
+};
 
+/**
+ * Builds a rating table for the given assistance systems.
+ * @param {HTMLElement} tableEl The table element to populate.
+ * @param {string} prefix Prefix for radio input names.
+ */
+function buildTable(tableEl, prefix) {
+    const header = document.createElement('tr');
+    header.appendChild(document.createElement('th'));
+    for (let i = 0; i <= 6; i++) {
+        const th = document.createElement('th');
+        th.textContent = i.toString();
+        header.appendChild(th);
+    }
+    tableEl.appendChild(header);
+
+    assistanceSystems.forEach((system, index) => {
+        const row = document.createElement('tr');
+        const label = document.createElement('td');
+        label.textContent = system;
+        row.appendChild(label);
+
+        for (let i = 0; i <= 6; i++) {
+            const td = document.createElement('td');
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `${prefix}-${index}`;
+            input.value = i;
+            td.appendChild(input);
+            row.appendChild(td);
+        }
+
+        tableEl.appendChild(row);
+    });
+}
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('preferencesForm');
+    const practicalTable = document.getElementById('practicalTable');
+    const theoreticalTable = document.getElementById('theoreticalTable');
     const saveBtn = document.getElementById('savePreferences');
 
-    const table = document.createElement('table');
-        table.className = 'preferences-table';
-
-        const headerRow = document.createElement('tr');
-        headerRow.appendChild(document.createElement('th'));
-        experienceLevels.forEach(level => {
-            const th = document.createElement('th');
-            th.textContent = level;
-            headerRow.appendChild(th);
-        });
-        table.appendChild(headerRow);
-    
-        assistanceSystems.forEach(system => {
-            const row = document.createElement('tr');
-            const labelCell = document.createElement('td');
-            labelCell.textContent = system;
-            row.appendChild(labelCell);
-
-            experienceLevels.forEach(level => {
-                const td = document.createElement('td');
-                const radio = document.createElement('input');
-                    radio.type = 'radio';
-                    radio.name = system;
-            radio.value = level;
-            td.appendChild(radio);
-            row.appendChild(td);
-        });
-        table.appendChild(row);
-    });
-
-    form.appendChild(table);
+    buildTable(practicalTable, 'prac');
+    buildTable(theoreticalTable, 'theo');
 
 
     saveBtn.addEventListener('click', async () => {
         const prefs = {};
+        const visibility = {};
 
-        assistanceSystems.forEach(system => {
-            const selected = form.querySelector(`input[name="${system}"]:checked`);
-            if (selected) {
-                prefs[system] = selected.value;
-            }
-             });
-            localStorage.setItem('preferences', JSON.stringify(prefs));
-             const userCode = localStorage.getItem('userCode');
+        assistanceSystems.forEach((system, index) => {
+            const pracSel = document.querySelector(`input[name="prac-${index}"]:checked`);
+            const theoSel = document.querySelector(`input[name="theo-${index}"]:checked`);
+            const pracVal = pracSel ? parseInt(pracSel.value, 10) : 0;
+            const theoVal = theoSel ? parseInt(theoSel.value, 10) : 0;
+            const mean = (pracVal + theoVal) / 2;
+
+            prefs[system] = { practical: pracVal, theoretical: theoVal, mean };
+            const sectionId = systemIdMap[system];
+            if (sectionId) visibility[sectionId] = mean <= 3;
+        });
+
+        localStorage.setItem('preferences', JSON.stringify(prefs));
+        localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
+
+        const userCode = localStorage.getItem('userCode');
         if (userCode) {
             try {
                 await fetch(`/api/users/${userCode}/preferences`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ preferences: prefs })
+                    body: JSON.stringify({ preferences: prefs })
                 });
             } catch (e) {
                 console.error('Saving preferences failed', e);
@@ -82,71 +96,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/views/welcome';
     });
 });
-
-/*
-        function createTable(sectionId, rows, prefix) {
-        const section = document.getElementById(sectionId);
-        const table = document.createElement('table');
-        const header = document.createElement('tr');
-        header.appendChild(document.createElement('th'));
-        for (let i = 1; i <= 7; i++) {
-            const th = document.createElement('th');
-            th.textContent = i;
-            header.appendChild(th);
-        }
-        table.appendChild(header);
-
-        rows.forEach((text, rowIndex) => {
-            const tr = document.createElement('tr');
-            const labelCell = document.createElement('td');
-            labelCell.textContent = text;
-            tr.appendChild(labelCell);
-
-            for (let i = 1; i <= 7; i++) {
-                const td = document.createElement('td');
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = `${prefix}-${rowIndex}`;
-                radio.value = i;
-                td.appendChild(radio);
-                tr.appendChild(td);
-            }
-            table.appendChild(tr);
-        });
-        section.appendChild(table);
-    }
-
-    createTable('assistanceSection', assistanceSystems, 'assist');
-    createTable('experienceSection', experienceLevels, 'exp');
-
-    saveBtn.addEventListener('click', async () => {
-        let score = 0;
-        assistanceSystems.forEach((_, idx) => {
-            const sel = form.querySelector(`input[name="assist-${idx}"]:checked`);
-            if (sel) score += parseInt(sel.value, 10);
-        });
-        experienceLevels.forEach((_, idx) => {
-            const sel = form.querySelector(`input[name="exp-${idx}"]:checked`);
-            if (sel) score += parseInt(sel.value, 10);
-        });
-
-        const allCategories = categories.map(c => c.key);
-        const basicCategories = allCategories.slice(0, 3);
-        const selectedCategories = score >= 9 ? allCategories : basicCategories;
-
-        localStorage.setItem('preferences', JSON.stringify(selectedCategories));
-        localStorage.setItem('userScore', score);
-        const userCode = localStorage.getItem('userCode');
-        if (userCode) {
-            try {
-                await fetch(`/api/users/${userCode}/preferences`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ preferences: selectedCategories })
-                });
-            } catch (e) { console.error('Saving preferences failed', e); }
-        }
-        
-        window.location.href = '/views/welcome';
-    });
-});*/

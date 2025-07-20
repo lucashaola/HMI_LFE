@@ -255,6 +255,15 @@ document.addEventListener('DOMContentLoaded', function () {
         mainContent.appendChild(contentDiv);
     });
 
+     // Show or hide sections based on saved visibility preferences
+    const visibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+    Object.entries(visibility).forEach(([key, show]) => {
+        const element = document.getElementById(key);
+        if (element) {
+            element.style.display = show ? 'block' : 'none';
+        }
+    });
+
     const searchInput = document.querySelector('.search');
     if (searchInput) searchInput.value = '';
 

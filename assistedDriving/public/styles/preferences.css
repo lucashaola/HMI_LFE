@@ -70,7 +70,7 @@ html {
     justify-content: flex-start;
     margin-top: 0;
     margin-bottom: 80px;
-
+    overflow-y: auto;
 }
 
 .preferences-form {

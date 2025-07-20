@@ -14,5 +14,8 @@
   },
   "scripts": {
     "test": "jest"
+  },
+  "scripts": {
+    "test": "cd assistedDriving && npm test"
   }
 }

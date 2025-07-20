@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../server');
+const app = require('../assistedDriving/server');
 
 describe('POST /api/users', () => {
   it('creates a user and returns profile data', async () => {
