@@ -92,6 +92,10 @@ html {
     padding: 10px;
     text-align: center;
 }
+.preferences-form th {
+    font-size: 0.9em;
+    white-space: normal;
+}
 .preferences-form td:first-child {
     text-align: left;
 }

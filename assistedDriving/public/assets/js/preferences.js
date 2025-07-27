@@ -26,9 +26,18 @@ const systemIdMap = {
 function buildTable(tableEl, prefix) {
     const header = document.createElement('tr');
     header.appendChild(document.createElement('th'));
+    const labels = [
+        'keins',
+        'sehr wenig',
+        'wenig',
+        'eher wenig',
+        'eher viel',
+        'viel',
+        'sehr viel'
+    ];
     for (let i = 0; i <= 6; i++) {
         const th = document.createElement('th');
-        th.textContent = i.toString();
+        th.textContent = labels[i];
         header.appendChild(th);
     }
     tableEl.appendChild(header);
