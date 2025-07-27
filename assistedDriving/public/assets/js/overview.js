@@ -1,7 +1,8 @@
 let contentPS;
 //const totalPages = Object.keys(tutorialContent).length;
 const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
-const orderedKeys = Object.keys(tutorialContent);
+const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+const orderedKeys = Object.keys(tutorialContent).filter(key => visibilitySettings[key] !== false);
 const totalPages = orderedKeys.length;
 let currentPage = 1;
 

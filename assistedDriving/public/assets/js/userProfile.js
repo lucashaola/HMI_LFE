@@ -137,9 +137,29 @@ async function fetchAndRedirectPreferences(code) {
     try {
         const res = await fetch(`/api/users/${code}/preferences`);
         const data = await res.json();
-        const prefs = data.preferences ? JSON.parse(data.preferences) : [];
+        const prefs = data.preferences ? JSON.parse(data.preferences) : {};
         localStorage.setItem('preferences', JSON.stringify(prefs));
-        if (!prefs || prefs.length === 0) {
+        const systemIdMap = {
+            'Aktivierung': 'aktivierung',
+            'Verkehrszeichenassistent': 'verkehrszeichen',
+            'Abstandsregeltempomat': 'geschwindigkeit',
+            'Stauassistent': 'stau',
+            'Ampelerkennung': 'ampelerkennung',
+            'Spurführungsassistent': 'spurführung',
+            'Spurwechselassistent': 'spurwechsel'
+        };
+
+        const visibility = {};
+        Object.keys(prefs).forEach(system => {
+            const values = prefs[system] || {};
+            const sum = (values.practical || 0) + (values.theoretical || 0);
+            const id = systemIdMap[system];
+            if (id) visibility[id] = sum < 4;
+        });
+
+        localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
+
+        if (!prefs || Object.keys(prefs).length === 0) {
             window.location.href = '/views/preferences';
         }
     } catch (e) {
