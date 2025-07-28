@@ -1,9 +1,24 @@
 const assistanceSystems = [
-    'Verkehrszeichenassistent',
-    'Abstandsregeltempomat',
-    'Ampelerkennung',
-    'Spurführungsassistent',
-    'Notbremsassistent'
+    {
+        name: 'Verkehrszeichenassistent',
+        description: 'Das System erkennt Verkehrszeichen, zeigt die entsprechenden Informationen im Fahrzeug an und passt die Fahrzeuggeschwindigkeit automatisch an.'
+    },
+    {
+        name: 'Abstandsregeltempomat',
+        description: 'Das System hält einen festgelegten Abstand zum Vorderfahrzeug, indem es automatisch bremst/beschleunigt und so die Geschwindigkeit an den Verkehrsfluss anpasst.'
+    },
+    {
+        name: 'Ampelerkennung',
+        description: 'Das System erkennt Ampelsignale, zeigt die entsprechenden Informationen im Fahrzeug an und reagiert selbst oder gibt dem Fahrer Fahranweisungen.'
+    },
+    {
+        name: 'Spurführungsassistent',
+        description: 'Das System hält das Fahrzeug in der Mitte der Fahrspur und lenkt das Fahrzeug unentwegt.'
+    },
+    {
+        name: 'Notbremsassistent',
+        description: 'Das System erkennt, ob eine Kollisionsgefahr mit anderen Fahrzeugen besteht, warnt vor einer drohenden Kollision oder unterstützt der Fahrer aktiv durch Erhöhung der Bremsmoments.'
+    }
 ];
 
 const systemIdMap = {
@@ -41,7 +56,7 @@ function buildTable(tableEl, prefix) {
     assistanceSystems.forEach((system, index) => {
         const row = document.createElement('tr');
         const label = document.createElement('td');
-        label.textContent = system;
+        label.innerHTML = `<strong>${system.name}</strong><br><span class="system-desc">${system.description}</span>`;
         row.appendChild(label);
 
         for (let i = 0; i <= 6; i++) {
@@ -70,16 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const prefs = {};
         const visibility = {};
 
-        assistanceSystems.forEach((system, index) => {
-            const pracSel = document.querySelector(`input[name="prac-${index}"]:checked`);
-            const theoSel = document.querySelector(`input[name="theo-${index}"]:checked`);
-            const pracVal = pracSel ? parseInt(pracSel.value, 10) : 0;
-            const theoVal = theoSel ? parseInt(theoSel.value, 10) : 0;
-            const mean = (pracVal + theoVal) / 2;
+    assistanceSystems.forEach((system, index) => {
+        const pracSel = document.querySelector(`input[name="prac-${index}"]:checked`);
+        const theoSel = document.querySelector(`input[name="theo-${index}"]:checked`);
+        const pracVal = pracSel ? parseInt(pracSel.value, 10) : 0;
+        const theoVal = theoSel ? parseInt(theoSel.value, 10) : 0;
+        const mean = (pracVal + theoVal) / 2;
 
-            prefs[system] = { practical: pracVal, theoretical: theoVal, mean };
-            const sectionId = systemIdMap[system];
-            if (sectionId) visibility[sectionId] = mean <= 3;
+            prefs[system.name] = { practical: pracVal, theoretical: theoVal, mean };
+        const sectionId = systemIdMap[system.name];
+        if (sectionId) visibility[sectionId] = mean <= 3;
         });
 
         localStorage.setItem('preferences', JSON.stringify(prefs));

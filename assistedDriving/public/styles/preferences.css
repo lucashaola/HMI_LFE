@@ -80,6 +80,10 @@ html {
     font-size: 1.4em;
 }
 
+.preferences-form h4 {
+    margin-bottom: 10px;
+}
+
 .preferences-form table {
     width: 100%;
     border-collapse: collapse;
@@ -96,8 +100,11 @@ html {
     font-size: 0.9em;
     white-space: normal;
 }
-.preferences-form td:first-child {
+preferences-form td:first-child,
+.preferences-table th:first-child,
+.preferences-table td:first-child {
     text-align: left;
+    width: 40%;
 }
 
 .preferences-form input[type="radio"] {
@@ -119,22 +126,27 @@ html {
 .preferences-table th:first-child {
     text-align: left;
 }
+.system-desc {
+    font-size: 0.8em;
+    display: block;
+    margin-top: 4px;
+}
 
 .button-container {
     position: fixed;
-    bottom: 80px;
+    bottom: 70px;
     left: 14px;
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 40px;
-    padding: 10px 0;
+    padding: 8px 0;
     z-index: 10;
     
 }
 
 button {
-    padding: 12px 30px;
+    padding: 10px 20px;
     font-size: 1.2em;
     border-radius: 5px;
     border: none;
