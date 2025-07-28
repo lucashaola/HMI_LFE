@@ -1,21 +1,17 @@
 const assistanceSystems = [
-    'Aktivierung',
     'Verkehrszeichenassistent',
     'Abstandsregeltempomat',
-    'Stauassistent',
     'Ampelerkennung',
     'Spurführungsassistent',
-    'Spurwechselassistent'
+    'Notbremsassistent'
 ];
 
 const systemIdMap = {
-    'Aktivierung': 'aktivierung',
     'Verkehrszeichenassistent': 'verkehrszeichen',
     'Abstandsregeltempomat': 'geschwindigkeit',
-    'Stauassistent': 'stau',
     'Ampelerkennung': 'ampelerkennung',
     'Spurführungsassistent': 'spurführung',
-    'Spurwechselassistent': 'spurwechsel'
+    'Notbremsassistent': 'notbrems'
 };
 
 /**

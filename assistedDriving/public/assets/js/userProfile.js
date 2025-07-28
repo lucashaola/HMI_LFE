@@ -140,13 +140,11 @@ async function fetchAndRedirectPreferences(code) {
         const prefs = data.preferences ? JSON.parse(data.preferences) : {};
         localStorage.setItem('preferences', JSON.stringify(prefs));
         const systemIdMap = {
-            'Aktivierung': 'aktivierung',
             'Verkehrszeichenassistent': 'verkehrszeichen',
             'Abstandsregeltempomat': 'geschwindigkeit',
-            'Stauassistent': 'stau',
             'Ampelerkennung': 'ampelerkennung',
             'Spurführungsassistent': 'spurführung',
-            'Spurwechselassistent': 'spurwechsel'
+            'Notbremsassistent': 'notbrems'
         };
 
         const visibility = {};
