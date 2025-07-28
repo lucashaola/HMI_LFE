@@ -1,4 +1,5 @@
 let sidebarPS, mainPS;
+const excludedCategories = ['stau', 'spurwechsel'];
 const hasShownCompletionMessage = () => {
     const userCode = localStorage.getItem('userCode');
     return localStorage.getItem(`completionMessageShown_${userCode}`) === 'true';
@@ -240,13 +241,15 @@ Also handles navigation and completion popups when the user attempts to leave th
 document.addEventListener('DOMContentLoaded', function () {
     const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
     const hasPrefs = Object.keys(prefs).length > 0;
-    // If preferences object has keys, show all categories for now
+    // remove excluded categories
+    if (typeof categories !== 'undefined') {
+        categories = categories.filter(cat => !excludedCategories.includes(cat.key));
+    }
     createSidebar(categories);
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
-    //Object.keys(tutorialContent).forEach(sectionId => {
-    const contentKeys = Object.keys(tutorialContent);
+    const contentKeys = Object.keys(tutorialContent).filter(key => !excludedCategories.includes(key));
     contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'content';

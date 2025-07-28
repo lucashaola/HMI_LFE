@@ -2,7 +2,9 @@ let contentPS;
 //const totalPages = Object.keys(tutorialContent).length;
 const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
 const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
-const orderedKeys = Object.keys(tutorialContent).filter(key => visibilitySettings[key] !== false);
+const excludedCategories = ['stau', 'spurwechsel'];
+const orderedKeys = Object.keys(tutorialContent)
+    .filter(key => visibilitySettings[key] !== false && !excludedCategories.includes(key));
 const totalPages = orderedKeys.length;
 let currentPage = 1;
 
