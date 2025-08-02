@@ -1,7 +1,10 @@
-/** Returns category keys that are visible based on preferences */
+const excludedCategories = ['stau', 'spurwechsel'];
+
+/* Returns category keys that are visible based on preferences */
 function getVisibleCategoryKeys() {
     const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
-    return Object.keys(categoryQuestions).filter(key => visibilitySettings[key] !== false);
+    return Object.keys(categoryQuestions)
+        .filter(key => visibilitySettings[key] !== false && !excludedCategories.includes(key));
 }
 
 /** Displays questions for a specific category or all unlocked categories */
