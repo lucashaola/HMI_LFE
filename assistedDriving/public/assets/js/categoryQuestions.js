@@ -266,7 +266,7 @@
     };
 
     /** categories array maps each category key to a name and an icon path, if you want to add a new category, the icon must be the same as the mapped name - e.g. Aktivierung*/
-    categories = Object.keys(categoryQuestions).map(key => {
+    const categories = Object.keys(categoryQuestions).map(key => {
         const nameMap = {
             aktivierung: 'Aktivierung',
             verkehrszeichen: 'Verkehrszeichenassistent',
@@ -286,7 +286,8 @@
             icon: `../../assets/icons/tutorial/${nameMap[key]}.svg`
         };
     });
-
+    root.categories = categories;
+    
     // Node.js environment
     if (typeof module !== 'undefined' && module.exports) {
         module.exports = categoryQuestions;

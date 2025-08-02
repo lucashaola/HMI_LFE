@@ -11,11 +11,21 @@ const setCompletionMessageShown = () => {
 };
 
 /** Dynamically generates the sidebar with category items, including icons and click handlers.*/
-function createSidebar() {
+function createSidebar(categoryList) {
     const sidebarContent = document.querySelector('.sidebar-content');
-    sidebarContent.innerHTML = '';
+    if (sidebarContent) {
+        sidebarContent.innerHTML = '';
+    }
 
-    categories.forEach(category => {
+    if (!Array.isArray(categoryList)) {
+        console.warn('No categories available to populate the sidebar.');
+        if (sidebarContent) {
+            sidebarContent.innerHTML = '<p>Keine Kategorien verfügbar</p>';
+        }
+        return;
+    }
+
+    categoryList.forEach(category => {
         const sidebarItem = document.createElement('div');
         sidebarItem.className = 'sidebar-item';
 
@@ -37,7 +47,9 @@ function createSidebar() {
         // Append elements
         sidebarItem.appendChild(icon);
         sidebarItem.appendChild(text);
-        sidebarContent.appendChild(sidebarItem);
+        if (sidebarContent) {
+            sidebarContent.appendChild(sidebarItem);
+        }
     });
 }
 
@@ -242,10 +254,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
     const hasPrefs = Object.keys(prefs).length > 0;
     // remove excluded categories
-    if (typeof categories !== 'undefined') {
+    if (Array.isArray(categories)) {
         categories = categories.filter(cat => !excludedCategories.includes(cat.key));
+        createSidebar(categories);
+    } else {
+        console.warn('Categories are not defined or not an array.');
+        const sidebarContent = document.querySelector('.sidebar-content');
+        if (sidebarContent) {
+            sidebarContent.innerHTML = '<p>Keine Kategorien verfügbar</p>';
+        }
     }
-    createSidebar(categories);
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');

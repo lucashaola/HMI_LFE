@@ -1,11 +1,14 @@
-const excludedCategories = ['stau', 'spurwechsel'];
+let getVisibleCategoryKeys;
+(() => {
+    const excludedCategories = ['stau', 'spurwechsel'];
 
-/* Returns category keys that are visible based on preferences */
-function getVisibleCategoryKeys() {
-    const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
-    return Object.keys(categoryQuestions)
-        .filter(key => visibilitySettings[key] !== false && !excludedCategories.includes(key));
-}
+    /** Returns category keys that are visible based on preferences */
+    getVisibleCategoryKeys = function() {
+        const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+        return Object.keys(categoryQuestions)
+            .filter(key => visibilitySettings[key] !== false && !excludedCategories.includes(key));
+    };
+})();
 
 /** Displays questions for a specific category or all unlocked categories */
 async function showCategoryQuestions(category = null, retryQuestions = null) {
