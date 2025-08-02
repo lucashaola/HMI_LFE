@@ -113,6 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        window.location.href = '/views/welcome';
+        window.location.href = '/views/overview';
     });
 });

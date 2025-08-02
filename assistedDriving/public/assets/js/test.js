@@ -1,7 +1,16 @@
+/** Returns category keys that are visible based on preferences */
+function getVisibleCategoryKeys() {
+    const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+    return Object.keys(categoryQuestions).filter(key => visibilitySettings[key] !== false);
+}
+
 /** Displays questions for a specific category or all unlocked categories */
 async function showCategoryQuestions(category = null, retryQuestions = null) {
     const identificationCode = localStorage.getItem('userCode');
     if (!identificationCode) return;
+    
+    const visibleCategories = getVisibleCategoryKeys();
+    if (category && !visibleCategories.includes(category)) return;
 
     try {
         const response = await fetch(`/api/test/${identificationCode}`);
@@ -14,7 +23,7 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
             questionsToHandle = retryQuestions;
             totalQuestions = retryQuestions.length;
         } else {
-            const categoriesToHandle = category ? [category] : Object.keys(categoryQuestions);
+            const categoriesToHandle = category ? [category] : visibleCategories;
             questionsToHandle = [];
             let hasRemainingQuestions = false;
 
@@ -189,7 +198,7 @@ async function hasLockedCategories() {
     const response = await fetch(`/api/test/${identificationCode}`);
     const testData = await response.json();
 
-    for (const category of Object.keys(categoryQuestions)) {
+    for (const category of getVisibleCategoryKeys()) {
         const isLocked = await isCategoryUnlocked(category);
         const correctlyAnswered = JSON.parse(testData.correctly_answered || '{}')[category] || [];
         const hasRemainingQuestions = categoryQuestions[category].length > correctlyAnswered.length;
@@ -296,10 +305,14 @@ async function showTestOverview() {
     try {
         const response = await fetch(`/api/test/${identificationCode}`);
         const testData = await response.json();
-        const unlockedCategories = await getUnlockedCategories();
+        const visibleCategoryKeys = getVisibleCategoryKeys();
+        const unlockedCategories = (await getUnlockedCategories()).filter(key => visibleCategoryKeys.includes(key));
 
-        const totalQuestions = Object.values(categoryQuestions).reduce((sum, category) => sum + category.length, 0);
-        const correctlyAnswered = Object.values(JSON.parse(testData.correctly_answered || '{}')).reduce((sum, answers) => sum + answers.length, 0);
+        const totalQuestions = visibleCategoryKeys.reduce((sum, key) => sum + categoryQuestions[key].length, 0);
+        const correctlyAnswered = visibleCategoryKeys.reduce((sum, key) => {
+            const answers = JSON.parse(testData.correctly_answered || '{}')[key] || [];
+            return sum + answers.length;
+        }, 0);
 
         testOverviewContainer.innerHTML = `
             <div class="test-header">
@@ -320,7 +333,7 @@ async function showTestOverview() {
             <hr>
             <h2 class="categories-heading">Beantworten nach Kategorien</h2>
             <div class="test-progress-circles">
-                ${categories.map(category => {
+                ${categories.filter(cat => visibleCategoryKeys.includes(cat.key)).map(category => {
                 const correctlyAnsweredCategory = JSON.parse(testData.correctly_answered || '{}')[category.key] || [];
                 const incorrectlyAnswered = JSON.parse(testData.currently_incorrectly_answered || '{}')[category.key] || [];
                 const totalQuestionsCategory = categoryQuestions[category.key].length;
