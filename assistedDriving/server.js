@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Database setup
-const db = new sqlite3.Database('users.db', (err) => {
+const db = new sqlite3.Database('adaptiveUsers.db', (err) => {
     if (err) {
         console.error('Error opening database:', err);
     } else {

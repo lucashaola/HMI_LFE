@@ -106,7 +106,7 @@ Every page is associated with one or more JavaScript files for specific function
 │       ├── tutorial                  
 │       ├── welcome                   
 ├── server.js                         
-├── users.db                          // Database file created automatically when the first user creates a profile
+├── adaptiveUsers.db                          // Database file created automatically when the first user creates a profile
 ```
 In category questions the categories for the WHOLE HMI gets defined - if you want to add/remove categories, you have to do it there.
 There each category also gets it's icon assigned
