@@ -134,6 +134,9 @@ function filterResults() {
     const resultsDiv = document.getElementById('results');
     if (!searchInput || !resultsDiv) return;
 
+    const tutorialVisibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+    const excludedCategories = ['stau', 'spurwechsel'];
+
     const searchTerm = searchInput.value.toLowerCase().trim();
 
     if (searchTerm.length < 2) {
@@ -143,24 +146,26 @@ function filterResults() {
 
     let searchResults = [];
 
-    Object.entries(tutorialContent).forEach(([contentId, content]) => {
-        content.content.forEach((slide, index) => {
-            const text = slide.text || '';
-            const subtext = slide.subtext || '';
+    Object.entries(tutorialContent)
+        .filter(([id]) => tutorialVisibility[id] !== false && !excludedCategories.includes(id))
+        .forEach(([contentId, content]) => {
+            content.content.forEach((slide, index) => {
+                const text = slide.text || '';
+                const subtext = slide.subtext || '';
 
-            if (text.toLowerCase().includes(searchTerm) ||
-                subtext.toLowerCase().includes(searchTerm) ||
-                content.title.toLowerCase().includes(searchTerm)) {
-                searchResults.push({
-                    title: content.title,
-                    text: text,
-                    subtext: subtext,
-                    contentId: contentId,
-                    slideIndex: index
-                });
-            }
+                if (text.toLowerCase().includes(searchTerm) ||
+                    subtext.toLowerCase().includes(searchTerm) ||
+                    content.title.toLowerCase().includes(searchTerm)) {
+                    searchResults.push({
+                        title: content.title,
+                        text: text,
+                        subtext: subtext,
+                        contentId: contentId,
+                        slideIndex: index
+                    });
+                }
+            });
         });
-    });
 
     if (searchResults.length > 0) {
         resultsDiv.style.display = 'block';
