@@ -17,7 +17,7 @@ const assistanceSystems = [
     },
     {
         name: 'Notbremsassistent',
-        description: 'Das System erkennt, ob eine Kollisionsgefahr mit anderen Fahrzeugen besteht, warnt vor einer drohenden Kollision oder unterstützt der Fahrer aktiv durch Erhöhung der Bremsmoments.'
+        description: 'Das System erkennt, ob eine Kollisionsgefahr mit anderen Fahrzeugen besteht, warnt vor einer drohenden Kollision oder unterstützt den Fahrer aktiv durch Erhöhung des Bremsmoments.'
     }
 ];
 
@@ -29,23 +29,11 @@ const systemIdMap = {
     'Notbremsassistent': 'notbrems'
 };
 
-/**
- * Builds a rating table for the given assistance systems.
- * @param {HTMLElement} tableEl The table element to populate.
- * @param {string} prefix Prefix for radio input names.
- */
+
 function buildTable(tableEl, prefix) {
     const header = document.createElement('tr');
     header.appendChild(document.createElement('th'));
-    const labels = [
-        'keins',
-        'sehr wenig',
-        'wenig',
-        'eher wenig',
-        'eher viel',
-        'viel',
-        'sehr viel'
-    ];
+    const labels = ['keins', 'sehr wenig', 'wenig', 'eher wenig', 'eher viel', 'viel', 'sehr viel'];
     for (let i = 0; i <= 6; i++) {
         const th = document.createElement('th');
         th.textContent = labels[i];
@@ -72,31 +60,47 @@ function buildTable(tableEl, prefix) {
         tableEl.appendChild(row);
     });
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const practicalTable = document.getElementById('practicalTable');
-    const theoreticalTable = document.getElementById('theoreticalTable');
-    const saveBtn = document.getElementById('savePreferences');
-
     buildTable(practicalTable, 'prac');
-    buildTable(theoreticalTable, 'theo');
 
+    const storedPrefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+    assistanceSystems.forEach((system, index) => {
+        const val = storedPrefs[system.name]?.practical;
+        if (typeof val === 'number') {
+            const selector = `input[name="prac-${index}"][value="${val}"]`;
+            const input = document.querySelector(selector);
+            if (input) input.checked = true;
+        }
+    });
 
-    saveBtn.addEventListener('click', async () => {
-        const prefs = {};
+    document.getElementById('backToTheoretical').addEventListener('click', () => {
+        const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+        assistanceSystems.forEach((system, index) => {
+            const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
+            const val = sel ? parseInt(sel.value, 10) : 0;
+            if (!prefs[system.name]) prefs[system.name] = {};
+            prefs[system.name].practical = val;
+        });
+        localStorage.setItem('preferences', JSON.stringify(prefs));
+        window.location.href = '/views/preferencesTheoretical';
+    });
+
+    document.getElementById('savePreferences').addEventListener('click', async () => {
+        const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
         const visibility = {};
 
-    assistanceSystems.forEach((system, index) => {
-        const pracSel = document.querySelector(`input[name="prac-${index}"]:checked`);
-        const theoSel = document.querySelector(`input[name="theo-${index}"]:checked`);
-        const pracVal = pracSel ? parseInt(pracSel.value, 10) : 0;
-        const theoVal = theoSel ? parseInt(theoSel.value, 10) : 0;
-        const mean = (pracVal + theoVal) / 2;
-
+            assistanceSystems.forEach((system, index) => {
+            const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
+            const pracVal = sel ? parseInt(sel.value, 10) : 0;
+            const theoVal = prefs[system.name]?.theoretical || 0;
+            const mean = (pracVal + theoVal) / 2;
             prefs[system.name] = { practical: pracVal, theoretical: theoVal, mean };
-        const sectionId = systemIdMap[system.name];
-        if (sectionId) visibility[sectionId] = mean <= 3;
+            const sectionId = systemIdMap[system.name];
+            if (sectionId) visibility[sectionId] = mean <= 3;
         });
-
+        
         localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
 

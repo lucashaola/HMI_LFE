@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Fragen</title>
+    <link rel="icon" href="../../assets/icons/shared/TUM.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../styles/preferences.css">
+    <link rel="stylesheet" href="../../styles/footer.css">
+    <link rel="stylesheet" href="../../assets/vendor/sweetalert2.min.css">
+    <script src="../../assets/vendor/sweetalert2.js"></script>
+</head>
+<body>
+<div class="header">
+    <h1 id="Titel">Score-Fragen</h1>
+    <button class="close-btn" onclick="window.location.href='/views/welcome'">
+        <img class="close-icon" src="../../assets/icons/shared/Close.svg" alt="">
+    </button>
+</div>
+<div class="main-content">
+    <form id="preferencesForm" class="preferences-form">
+        <section id="theoreticalSection">
+             <h4>Wie viel theoretisches Wissen (z.B über Artikel, Videos, etc.) haben Sie über die folgenden automatisierten Fahrfunktionen?</h4>
+            <table id="theoreticalTable" class="preferences-table"></table>
+        </section>
+    </form>
+    <div class="button-container">
+        <button type="button" onclick="window.location.href='/views/welcome'">Zurück</button>
+        <button type="button" id="nextPreferences">Weiter</button>
+    </div>
+</div>
+<script src="../../assets/js/script.js"></script>
+<script src="../../assets/js/categoryQuestions.js"></script>
+<script src="../../assets/js/preferencesTheoretical.js"></script>
+<script src="../../assets/js/footer.js"></script>
+</body>
+</html>

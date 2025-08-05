@@ -20,22 +20,18 @@
 <div class="main-content">
     <form id="preferencesForm" class="preferences-form">
         <section id="practicalSection">
-            <h4>Wie viel theoretisches Wissen (z.B über Artikel, Videos, etc.) haben Sie über die folgenden automatisierten Fahrfunktionen?</h4>
-            <table id="practicalTable" class="preferences-table"></table>
-        </section>
-        <section id="theoreticalSection">
             <h4>Wie viel praktische Erfahrung haben Sie mit den folgenden automatisierten Fahrfunktionen?</h4>
-            <table id="theoreticalTable" class="preferences-table"></table>
+            <table id="practicalTable" class="preferences-table"></table>
         </section>
     </form>
     <div class="button-container">
-        <button type="button" onclick="window.location.href='/views/welcome'">Zurück</button>
+        <button type="button" id="backToTheoretical">Zurück</button>
         <button type="button" id="savePreferences">Speichern</button>
     </div>
 </div>
 <script src="../../assets/js/script.js"></script>
 <script src="../../assets/js/categoryQuestions.js"></script>
-<script src="../../assets/js/preferences.js"></script>
+<script src="../../assets/js/preferencesPractical.js"></script>
 <script src="../../assets/js/footer.js"></script>
 </body>
 </html>

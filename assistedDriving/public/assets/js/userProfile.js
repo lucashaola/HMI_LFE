@@ -158,7 +158,7 @@ async function fetchAndRedirectPreferences(code) {
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
 
         if (!prefs || Object.keys(prefs).length === 0) {
-            window.location.href = '/views/preferences';
+            window.location.href = '/views/preferencesTheoretical';
         }
     } catch (e) {
         console.error('Error fetching preferences:', e);
@@ -284,6 +284,6 @@ function handlePreferencesRedirect(prefsString) {
     }
     localStorage.setItem('preferences', JSON.stringify(prefs));
     if (Object.keys(prefs).length === 0) {
-        window.location.href = '/views/preferences';
+        window.location.href = '/views/preferencesTheoretical';
     }
 }
