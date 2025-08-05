@@ -153,9 +153,9 @@ async function fetchAndRedirectPreferences(code) {
             const practical = values.practical || 0;
             const theoretical = values.theoretical || 0;
             const mean = (practical + theoretical) / 2;
-            //values.mean = mean;
+            values.mean = mean;
             const id = systemIdMap[system];
-            if (id) visibility[id] = mean > 3;
+            if (id) visibility[id] = mean <= 3;
         });
         
         localStorage.setItem('preferences', JSON.stringify(prefs));
