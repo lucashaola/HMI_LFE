@@ -253,9 +253,13 @@ Also handles navigation and completion popups when the user attempts to leave th
 document.addEventListener('DOMContentLoaded', function () {
     const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
     const hasPrefs = Object.keys(prefs).length > 0;
-    // remove excluded categories
+    const tutorialVisibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+
+    // remove excluded or hidden categories
     if (Array.isArray(categories)) {
-        categories = categories.filter(cat => !excludedCategories.includes(cat.key));
+        categories = categories.filter(cat =>
+            !excludedCategories.includes(cat.key) && tutorialVisibility[cat.key] !== false
+        );
         createSidebar(categories);
     } else {
         console.warn('Categories are not defined or not an array.');
@@ -267,7 +271,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
-    const contentKeys = Object.keys(tutorialContent).filter(key => !excludedCategories.includes(key));
+    const contentKeys = Object.keys(tutorialContent).filter(key =>
+        !excludedCategories.includes(key) && tutorialVisibility[key] !== false
+    );
     contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'content';
@@ -276,14 +282,6 @@ document.addEventListener('DOMContentLoaded', function () {
         mainContent.appendChild(contentDiv);
     });
 
-     // Show or hide sections based on saved visibility preferences
-    const visibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
-    Object.entries(visibility).forEach(([key, show]) => {
-        const element = document.getElementById(key);
-        if (element) {
-            element.style.display = show ? 'block' : 'none';
-        }
-    });
 
     const searchInput = document.querySelector('.search');
     if (searchInput) searchInput.value = '';

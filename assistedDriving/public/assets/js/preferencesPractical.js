@@ -91,14 +91,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
         const visibility = {};
 
-            assistanceSystems.forEach((system, index) => {
+        assistanceSystems.forEach((system, index) => {
             const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
             const pracVal = sel ? parseInt(sel.value, 10) : 0;
             const theoVal = prefs[system.name]?.theoretical || 0;
             const mean = (pracVal + theoVal) / 2;
             prefs[system.name] = { practical: pracVal, theoretical: theoVal, mean };
             const sectionId = systemIdMap[system.name];
-            if (sectionId) visibility[sectionId] = mean <= 3;
+            if (sectionId) visibility[sectionId] = mean > 3;
         });
         
         localStorage.setItem('preferences', JSON.stringify(prefs));

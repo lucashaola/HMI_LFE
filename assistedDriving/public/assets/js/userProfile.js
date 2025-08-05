@@ -38,6 +38,7 @@ function checkForExistingProfile(isButtonClick = false) {
     });
 }
 
+
 async function createNewProfile() {
     try {
         const result = await Swal.fire({
@@ -138,7 +139,6 @@ async function fetchAndRedirectPreferences(code) {
         const res = await fetch(`/api/users/${code}/preferences`);
         const data = await res.json();
         const prefs = data.preferences ? JSON.parse(data.preferences) : {};
-        localStorage.setItem('preferences', JSON.stringify(prefs));
         const systemIdMap = {
             'Verkehrszeichenassistent': 'verkehrszeichen',
             'Abstandsregeltempomat': 'geschwindigkeit',
@@ -150,11 +150,15 @@ async function fetchAndRedirectPreferences(code) {
         const visibility = {};
         Object.keys(prefs).forEach(system => {
             const values = prefs[system] || {};
-            const sum = (values.practical || 0) + (values.theoretical || 0);
+            const practical = values.practical || 0;
+            const theoretical = values.theoretical || 0;
+            const mean = (practical + theoretical) / 2;
+            //values.mean = mean;
             const id = systemIdMap[system];
-            if (id) visibility[id] = sum < 4;
+            if (id) visibility[id] = mean > 3;
         });
-
+        
+        localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
 
         if (!prefs || Object.keys(prefs).length === 0) {
