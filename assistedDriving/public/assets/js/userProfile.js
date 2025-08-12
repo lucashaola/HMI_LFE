@@ -84,7 +84,7 @@ async function createNewProfile() {
             const userData = await response.json();
             localStorage.setItem('userName', name);
             localStorage.setItem('userCode', userData.identification_code);
-            handlePreferencesRedirect(JSON.stringify(userData.preferences || []));
+            localStorage.setItem('preferences', '[]');
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
@@ -109,7 +109,7 @@ async function createNewProfile() {
             });
 
             window.location.href = '/views/landing';
-            await handlePreferencesRedirect(userData.identification_code);
+            
         }
     } catch (error) {
         console.error('Error creating profile:', error);
