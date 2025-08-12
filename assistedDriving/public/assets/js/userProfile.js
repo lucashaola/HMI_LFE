@@ -88,7 +88,7 @@ async function createNewProfile() {
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
-            showProgressOverview();
+
 
             await sendEvent(userData.identification_code, 'welcome');
 
@@ -107,6 +107,8 @@ async function createNewProfile() {
                     container: 'swal-container-custom'
                 }
             });
+
+            window.location.href = '/views/landing';
             await handlePreferencesRedirect(userData.identification_code);
         }
     } catch (error) {
