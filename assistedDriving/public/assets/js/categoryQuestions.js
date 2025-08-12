@@ -84,31 +84,6 @@
                 ]
             }
         ],
-        stau: [
-            {
-                question: "Der Stauassistent wird automatisch bei Geschwindigkeiten unter 60 km/h aktiviert.",
-                options: [
-                    {text: "Richtig", correct: true},
-                    {text: "Falsch", correct: false},
-                ]
-            },
-            {
-                question: "Wie fährt das Fahrzeug aus dem Stillstand wieder an?",
-                options: [
-                    {text: "Manuelles Anfahren durch den Fahrer", correct: true},
-                    {text: "Automatisch oder durch Drücken der Set-Taste", correct: false},
-                    {text: "Nur mit eingeschaltetem Blinker", correct: false},
-                    {text: "Durch leichtes Antippen des Bremspedals", correct: false}
-                ]
-            },
-            {
-                question: "Wenn der Stauassistent aktiv ist, können Sie als Fahrer*in den Blick von der Straße abwenden?",
-                options: [
-                    {text: "Richtig", correct: false},
-                    {text: "Falsch", correct: true}
-                ]
-            }
-        ],
         ampelerkennung: [
             {
                 question: "Bremst das Fahrzeug automatisch, wenn es eine rote Ampel erkannt hat und diese von Ihnen als Fahrer*in bestätigt wurde?",
@@ -156,31 +131,6 @@
                 options: [
                     {text: "Ja", correct: false},
                     {text: "Nein", correct: true},
-                ]
-            }
-        ],
-        spurwechsel: [
-            {
-                question: "Wie wird ein automatischer Spurwechsel durch Sie als Fahrer*in eingeleitet?",
-                options: [
-                    {text: "Durch das Betätigen des Bremspedals", correct: false},
-                    {text: "Durch eine Sprachanweisung", correct: false},
-                    {text: "Durch Antippen des Blinkers", correct: true},
-                    {text: "Durch Erkennen von Fahrbahnmarkierungen", correct: false}
-                ]
-            },
-            {
-                question: "Das Fahrzeug schlägt eigenständig einen Spurwechsel vor, auch wenn es die Verkehrssituation nicht zulässt.",
-                options: [
-                    {text: "Richtig", correct: false},
-                    {text: "Falsch", correct: true},
-                ]
-            },
-            {
-                question: "Müssen Sie als Fahrer*in einen vorgeschlagenen Spurwechsel durch das Fahrzeug immer bestätigen, bevor dieser ausgeführt wird?",
-                options: [
-                    {text: "Ja", correct: true},
-                    {text: "Nein", correct: false}
                 ]
             }
         ],
@@ -272,9 +222,7 @@
             verkehrszeichen: 'Verkehrszeichenassistent',
             geschwindigkeit: 'Abstandsregeltempomat',
             ampelerkennung: 'Ampelerkennung',
-            stau: 'Stauassistent',
             spurführung: 'Spurführungsassistent',
-            spurwechsel: 'Spurwechselassistent',
             notbrems: 'Notbremsassistent',
             deaktivierung: 'Deaktivierung',
             risiken: 'Risiken und Verantwortung',

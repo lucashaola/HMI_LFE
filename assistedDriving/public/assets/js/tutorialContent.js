@@ -87,25 +87,6 @@ const tutorialContent = {
             }
         ]
     },
-    stau: {
-        title: "Stauassistent",
-        content: [
-            {
-                text: "Erkennt das Fahrzeug eine Stausituation (bei weniger als 60 km/h), wird der Stauassistent automatisch aktiviert. Im Display leuchtet das Symbol TRAFFIC ASSIST <span class='green-text'>ACC-Symbol</span> auf.",
-                media: "../../assets/pictures/overview/4-1.gif",
-                addHr: true
-            },
-            {
-                text: "Das Fahrzeug beschleunigt, bremst und lenkt dann selbstständig und hält den Abstand zum Vorderfahrzeug automatisch.",
-                media: "../../assets/pictures/overview/4-2.gif",
-                addHr: true
-            },
-            {
-                text: "Wenn der Stauassistent aktiviert ist, können Sie die Hände vom Lenkrad nehmen. Ihr Blick muss aber weiterhin auf die Straße gerichtet sein. Bremst das Fahrzeug bis zum Stillstand ab, müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder aktiviert werden, sobald „DRIVING ASSIST READY“ weiß im Display aufleuchtet.",
-                media: "../../assets/pictures/overview/4-3.jpg",
-            }
-        ]
-    },
     ampelerkennung: {
         title: "Ampelerkennung",
         content: [
@@ -141,31 +122,6 @@ const tutorialContent = {
             {
                 text: "Das Fahrzeug hält dann automatisch die Spur.",
                 media: "../../assets/pictures/overview/6-2.gif",
-            }
-        ]
-    },
-    spurwechsel: {
-        title: "Spurwechselassistent",
-        content: [
-            {
-                text: "Das Fahrzeug wechselt auf mehrspurigen Straßen automatisch die Spur, wenn Sie den Blinker antippen und es der Verkehr zulässt. Es beobachtet dabei selbstständig die Umgebung.",
-                media: "../../assets/pictures/overview/7-1.gif",
-                addHr: true
-            },
-            {
-                text: "Das Spurwechsel-Symbol zeigt die Richtung des geplanten Spurwechsels an.",
-                media: "../../assets/pictures/overview/7-2-1.png",
-                additionalSmalllMedia: "../../assets/pictures/overview/7-2-2.png",
-                addHr: true
-            },
-            {
-                text: "Das Fahrzeug macht eigenständig Vorschläge für einen Spurwechsel, wenn der Verkehr dies zulässt. Wenn Sie den Spurwechsel ausführen möchten, drücken Sie die <span class='blue-text'>Set-Taste</span>, um den Vorschlag zu bestätigen.",
-                media: "../../assets/pictures/overview/7-3.gif",
-                addHr: true
-            },
-            {
-                text: "Nach der Bestätigung erscheint im Display ein <span class='green-text'>grüner Haken (✓)</span> und der Spurwechsel wird ausgeführt.",
-                media: "../../assets/pictures/overview/7-4.gif",
             }
         ]
     },

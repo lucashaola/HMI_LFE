@@ -1,3 +1,5 @@
+const preferences = JSON.parse(localStorage.getItem('preferences') || '[]');
+
 /** Displays questions for a specific category or all unlocked categories */
 async function showCategoryQuestions(category = null, retryQuestions = null) {
     const identificationCode = localStorage.getItem('userCode');
@@ -14,7 +16,9 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
             questionsToHandle = retryQuestions;
             totalQuestions = retryQuestions.length;
         } else {
-            const categoriesToHandle = category ? [category] : Object.keys(categoryQuestions);
+            const categoriesToHandle = category
+                ? [category]
+                : Object.keys(categoryQuestions).filter(cat => preferences.length === 0 || preferences.includes(cat));
             questionsToHandle = [];
             let hasRemainingQuestions = false;
 
@@ -297,6 +301,7 @@ async function showTestOverview() {
         const response = await fetch(`/api/test/${identificationCode}`);
         const testData = await response.json();
         const unlockedCategories = await getUnlockedCategories();
+        const preferredCategories = categories.filter(cat => preferences.length === 0 || preferences.includes(cat.key));
 
         const totalQuestions = Object.values(categoryQuestions).reduce((sum, category) => sum + category.length, 0);
         const correctlyAnswered = Object.values(JSON.parse(testData.correctly_answered || '{}')).reduce((sum, answers) => sum + answers.length, 0);
@@ -320,7 +325,7 @@ async function showTestOverview() {
             <hr>
             <h2 class="categories-heading">Beantworten nach Kategorien</h2>
             <div class="test-progress-circles">
-                ${categories.map(category => {
+                ${preferredCategories.map(category => {
                 const correctlyAnsweredCategory = JSON.parse(testData.correctly_answered || '{}')[category.key] || [];
                 const incorrectlyAnswered = JSON.parse(testData.currently_incorrectly_answered || '{}')[category.key] || [];
                 const totalQuestionsCategory = categoryQuestions[category.key].length;
