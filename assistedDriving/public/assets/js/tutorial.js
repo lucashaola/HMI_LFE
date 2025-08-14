@@ -1,4 +1,5 @@
 let sidebarPS, mainPS;
+const mandatory = ['aktivierung', 'deaktivierung', 'risiken'];
 const hasShownCompletionMessage = () => {
     const userCode = localStorage.getItem('userCode');
     return localStorage.getItem(`completionMessageShown_${userCode}`) === 'true';
@@ -239,15 +240,13 @@ async function showCompletionPopup() {
 Also handles navigation and completion popups when the user attempts to leave the tutorial.*/
 document.addEventListener('DOMContentLoaded', function () {
     const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
-    if (prefs.length > 0) {
-        categories = categories.filter(c => prefs.includes(c.key));
-    }
+    const merged = prefs.length > 0 ? [...new Set([...prefs, ...mandatory])] : Object.keys(tutorialContent);
+    categories = categories.filter(c => merged.includes(c.key));
     createSidebar(categories);
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
-    //Object.keys(tutorialContent).forEach(sectionId => {
-    const contentKeys = prefs.length > 0 ? prefs : Object.keys(tutorialContent);
+    const contentKeys = Object.keys(tutorialContent).filter(key => merged.includes(key));
     contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'content';

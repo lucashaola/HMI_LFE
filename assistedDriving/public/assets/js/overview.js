@@ -1,7 +1,8 @@
 let contentPS;
-//const totalPages = Object.keys(tutorialContent).length;
+const mandatory = ['aktivierung', 'deaktivierung', 'risiken'];
 const selectedCategories = JSON.parse(localStorage.getItem('preferences') || '[]');
-const orderedKeys = selectedCategories.length > 0 ? selectedCategories : Object.keys(tutorialContent);
+const mergedCategories = selectedCategories.length > 0 ? [...new Set([...selectedCategories, ...mandatory])] : Object.keys(tutorialContent);
+const orderedKeys = Object.keys(tutorialContent).filter(key => mergedCategories.includes(key));
 const totalPages = orderedKeys.length;
 let currentPage = 1;
 

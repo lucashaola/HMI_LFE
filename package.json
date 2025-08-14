@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "npx jest"
+  },
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
