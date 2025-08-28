@@ -278,7 +278,7 @@ async function showProgressOverview() {
                 <hr>
                 <div class="test-action-container">
                     <h2 class="assistant-heading">Testen Sie Ihr Wissen: </h2>
-                    <button class="test-btn" onclick="window.location.href='?view=test'"';">Testen</button>
+                    <button class="test-btn" onclick="window.location.href='?view=test&startQuiz=true'">Testen</button>
                 </div>
 
             `;

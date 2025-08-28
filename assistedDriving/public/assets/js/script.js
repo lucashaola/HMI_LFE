@@ -122,8 +122,13 @@ function initializeProfileScreen() {
 
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view');
+    const startQuiz = urlParams.get('startQuiz') === 'true';
 
     setActiveView(viewParam || 'overview');
+
+    if (viewParam === 'test' && startQuiz && typeof showCategoryQuestions === 'function') {
+        showCategoryQuestions();
+    }
 }
 
 /** Filters and displays search results based on user input */

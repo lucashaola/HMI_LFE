@@ -151,7 +151,7 @@ async function navigatePage(direction) {
             if (result.isConfirmed) {
                 window.location.href = '../../views/welcome';
             } else {
-                window.location.href = '../../views/profile?view=test';
+                window.location.href = '../../views/profile?view=test&startQuiz=true';
             }
 
             return;
