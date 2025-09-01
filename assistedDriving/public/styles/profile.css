@@ -82,7 +82,8 @@ html {
 
 .overview-btn,
 .saved-btn,
-.bonus-btn {
+.bonus-btn,
+.preferences-btn {
 
     color: #333333;
     background-color: #e1e7f4;
@@ -96,13 +97,15 @@ html {
 
 .overview-btn.selected,
 .saved-btn.selected,
-.bonus-btn.selected {
+.bonus-btn.selected,
+.preferences-btn.selected {
     background-color: #c6d2eb;
 }
 
 .overview-btn:hover,
 .saved-btn:hover,
-.bonus-btn:hover {
+.bonus-btn:hover,
+.preferences-btn:hover {
     background-color: #c6d2eb;
 }
 
