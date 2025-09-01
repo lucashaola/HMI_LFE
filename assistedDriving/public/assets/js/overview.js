@@ -141,17 +141,17 @@ async function navigatePage(direction) {
                 text: 'Testen Sie nun das teilautomatisierte Fahren für mehr Sicherheit und Komfort! Gerne können Sie Ihr Wissen zuvor nochmal testen. Viel Spaß!',
                 icon: 'info',
                 showCancelButton: true,
-                cancelButtonText: 'Wissen testen',
-                confirmButtonText: 'Weiter',
-                confirmButtonColor: '#e4e4e7',
+                cancelButtonText: 'Hauptmenü',
+                confirmButtonText: 'Wissen testen',
+                confirmButtonColor: '#8daddd',
                 cancelButtonColor: '#e4e4e7',
                 reverseButtons: true,
             });
 
             if (result.isConfirmed) {
-                window.location.href = '../../views/welcome';
-            } else {
                 window.location.href = '../../views/profile?view=test&startQuiz=true';
+            } else {
+                window.location.href = '../../views/welcome';
             }
 
             return;

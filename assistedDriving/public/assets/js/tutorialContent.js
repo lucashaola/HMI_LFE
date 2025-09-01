@@ -14,22 +14,28 @@
 */
 const tutorialContent = {
     aktivierung: {
-        title: "Aktivierung DRIVING ASSIST",
+        title: "Aktivierung",
         content: [
             {
-                text: "Wenn „DRIVING ASSIST READY\" weiß im Display aufleuchtet, ist das teilautomatisierte Fahren verfügbar.",
-                media: "../../assets/pictures/overview/1-1.gif",
+                text: "Der Status der Automation wird durch das Automationssymbol im Display angezeigt. " +
+                    "Erscheint das Symbol grau, ist das teilautomatisierte Fahren <b>nicht</b> verfügbar. ",
+                media: "../../assets/pictures/overview/1neu1.gif",
+                addHr: true
+            },
+            {
+                text: "Wenn das Automationssymbol weiß im Display aufleuchtet, ist das teilautomatisierte Fahren verfügbar.",
+                media: "../../assets/pictures/overview/1neu2.gif",
                 subtext: "Bei Bedingungen, wie zum Beispiel schlechtem Wetter, kann es unter Umständen nicht verfügbar sein.",
                 addHr: true
             },
             {
-                text: "Drücken Sie die <span class='blue-text'>Aktivierungstaste</span>, um den DRIVING ASSIST zu aktivieren.",
+                text: "Drücken Sie die <span class='blue-text'>„Aktivierungstaste“</span>, um das teilautomatisierte Fahren zu aktivieren.",
                 media: "../../assets/pictures/overview/1-2.gif",
                 addHr: true
             },
             {
-                text: "Bei erfolgreicher Aktivierung leuchtet „DRIVING ASSIST“ <span class='green-text'>grün</span> im Display auf.",
-                media: "../../assets/pictures/overview/1-3.gif",
+                text: "Bei erfolgreicher Aktivierung, leuchtet das Automationssymbol <span class='green-text'>grün</span> im Display auf.",
+                media: "../../assets/pictures/overview/1neu3.gif",
                 addHr: true
             },
             {
@@ -38,8 +44,10 @@ const tutorialContent = {
                 addHr: true
             },
             {
-                text: "Es sind nun <b>alle</b> Fahrerassistenzsysteme aktiv und das Fahrzeug fährt teilautomatisiert. Ihre Hände müssen während der automatisierten Fahrt am Lenkrad bleiben, ohne zu lenken. Ihre Füße müssen Sie von den Pedalen nehmen.",
-                media: "../../assets/pictures/overview/1-5.jpg",
+                text: "Es sind nun <b>alle</b> Fahrerassistenzsysteme aktiv und das Fahrzeug fährt <b>teilautomatisiert</b>. " +
+                    "Richten Sie Ihren Blick weiterhin auf die Straße und nehmen Sie die Füße von den Pedalen. " +
+                    "Ihre Hände können Sie während der automatisierten Fahrt vom Lenkrad nehmen oder am Lenkrad belassen, ohne zu lenken. ",
+                media: "../../assets/pictures/overview/4-3.jpg",
                 additionalMedia: "../../assets/pictures/overview/1-6.gif",
             }
         ]
@@ -48,34 +56,29 @@ const tutorialContent = {
         title: "Verkehrszeichenassistent",
         content: [
             {
-                text: "Das Fahrzeug erkennt Verkehrszeichen und Tempolimits.",
-                media: "../../assets/pictures/overview/2-1.gif",
+                text: "Das Fahrzeug erkennt Tempolimits.",
+                media: "../../assets/pictures/overview/2neu1.gif",
                 addHr: true
             },
             {
-                text: "Das erkannte Verkehrszeichen wird im Display angezeigt.",
-                media: "../../assets/pictures/overview/2-2.gif",
-                addHr: true
-            },
-            {
-                text: "Drücken Sie die <span class='blue-text'>Set-Taste</span>, um die erkannte Geschwindigkeit zu übernehmen. Das Fahrzeug passt sich dann der Geschwindigkeit an.",
-                media: "../../assets/pictures/overview/2-3.gif",
+                text: "Das erkannte Tempolimit wird im Display angezeigt. Bei einem neuen Tempolimit wird die erkannte Geschwindigkeit automatisch übernommen.",
+                media: "../../assets/pictures/overview/2neu2.gif",
                 addHr: true
             },
             {
                 text: "Drücken Sie den <span class='blue-text'>Hebel</span> nach oben oder unten, um die Geschwindigkeit individuell zu erhöhen (oben) oder zu verringern (unten).",
                 media: "../../assets/pictures/overview/2-4.gif",
+                addHr: true
+            },
+            {
+                text: "Ihre individuell eingestellte Geschwindigkeit wird im Display angezeigt.",
+                media: "../../assets/pictures/overview/2neu3.gif",
             }
         ]
     },
     geschwindigkeit: {
-        title: "Abstandsassistent/Adaptiver Geschwindigkeitsassistent (ACC)",
+        title: "Abstandsregeltempomat",
         content: [
-            {
-                text: "Wenn das <span class='green-text'>ACC-Symbol</span> im Display <span class='green-text'>grün</span> aufleuchtet, ist der Abstandsassistent aktiviert.",
-                media: "../../assets/pictures/overview/3-1.gif",
-                addHr: true
-            },
             {
                 text: "Das Fahrzeug hält dann den Abstand zum Vorderfahrzeug automatisch. Es bremst oder beschleunigt, falls nötig.",
                 media: "../../assets/pictures/overview/3-2.gif",
@@ -84,6 +87,11 @@ const tutorialContent = {
             {
                 text: "Drücken Sie die <span class='blue-text'>Abstandstasten</span>, um den Abstand zum Vorderfahrzeug individuell zu erhöhen (rechts) oder zu verringern (links).",
                 media: "../../assets/pictures/overview/3-3.gif",
+                addHr: true
+            },
+            {
+                text: "Der individuell eingestellte Abstand wird im Display symbolisch angezeigt. Die Striche vor dem Fahrzeug visualisieren den Abstand – je mehr Striche, desto größer der eingestellte Abstand. ",
+                media: "../../assets/pictures/overview/3neu1.gif",
             }
         ]
     },
@@ -91,37 +99,30 @@ const tutorialContent = {
         title: "Ampelerkennung",
         content: [
             {
-                text: "Das Fahrzeug erkennt Ampeln und zeigt diese im Display an. Damit das Fahrzeug an roten Ampeln anhält, müssen Sie diese durch Drücken der <span class='blue-text'>Set-Taste</span> bestätigen.",
-                media: "../../assets/pictures/overview/5-1.gif",
+                text: "Das Fahrzeug erkennt Ampeln und bremst bei roten Ampeln automatisch bis zum Stillstand ab.",
+                media: "../../assets/pictures/overview/4neu1.gif",
                 addHr: true
             },
             {
-                text: "Nach der Bestätigung erscheint im Display ein <span class='green-text'>grüner Haken (✓)</span>...",
-                media: "../../assets/pictures/overview/5-2.gif",
-                addHr: true
+                text: "Im Stillstand müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder " +
+                    "aktiviert werden, sobald das Symbol weiß im Display aufleuchtet.",
+                media: "../../assets/pictures/overview/4neu2.gif",
             },
-            {
-                text: "… und das Fahrzeug bremst automatisch bis zum Stillstand ab.",
-                media: "../../assets/pictures/overview/5-3.gif",
-                addHr: true
-            },
-            {
-                text: "Im Stillstand müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder aktiviert werden, sobald „DRIVING ASSIST READY“ weiß im Display aufleuchtet.",
-                media: "../../assets/pictures/overview/5-4.gif",
-            }
         ]
     },
     spurführung: {
-        title: "Lenk- und Spurführungsassistent (LKA)",
+        title: "Spurführungsassistent",
         content: [
             {
-                text: "Wenn das <span class='green-text'>LKA-Symbol</span> im Display <span class='green-text'>grün</span> aufleuchtet, ist der Spurhalteassistent aktiviert.",
-                media: "../../assets/pictures/overview/6-1.gif",
+                text: "Das Fahrzeug hält automatisch die Spur, wenn das teilautomatisierte Fahren aktiv ist.",
+                media: "../../assets/pictures/overview/6-2.gif",
                 addHr: true
             },
             {
-                text: "Das Fahrzeug hält dann automatisch die Spur.",
-                media: "../../assets/pictures/overview/6-2.gif",
+                text: "\n" +
+                    "Automatische Spurwechsel sind nicht möglich. Deaktivieren Sie das teilautomatisierte Fahren durch Drücken der Aktivierungstaste, um einen Spurwechsel manuell auszuführen.",
+                media: "../../assets/pictures/overview/1-2.gif",
+                additionalMedia: "../../assets/pictures/overview/9-3.gif",
             }
         ]
     },
@@ -129,24 +130,19 @@ const tutorialContent = {
         title: "Notbremsassistent",
         content: [
             {
-                text: "Das Fahrzeug erkennt Hindernisse und warnt bei Kollisionsgefahr.",
-                media: "../../assets/pictures/overview/8-1.gif",
-                addHr: true
-            },
-            {
-                text: "Im Stillstand müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder aktiviert werden, sobald „DRIVING ASSIST READY“ weiß im Display aufleuchtet.",
-                text: "Bevor es zum Zusammenstoß mit einem Hindernis, einer Person oder einem weiteren Fahrzeug kommt, bremst das Fahrzeug bis zum Stillstand ab.",
+                text: "Das Fahrzeug erkennt Hindernisse. Bevor es zum Zusammenstoß mit einem Hindernis, einer Person oder einem weiteren Fahrzeug kommt, bremst das Fahrzeug bis zum Stillstand ab.",
                 media: "../../assets/pictures/overview/8-2.gif",
                 addHr: true
             },
             {
-                text: "Im Stillstand müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder aktiviert werden, sobald „DRIVING ASSIST READY“ weiß im Display aufleuchtet.",
-                media: "../../assets/pictures/overview/1-1.gif",
+                text: "Im Stillstand müssen Sie übernehmen und manuell anfahren. Das teilautomatisierte Fahren kann wieder " +
+                    "aktiviert werden, sobald das Symbol weiß im Display aufleuchtet. ",
+                media: "../../assets/pictures/overview/6neu1.gif",
             }
         ]
     },
     deaktivierung: {
-        title: "Deaktivierung DRIVING ASSIST",
+        title: "Deaktivierung",
         content: [
             {
                 text: "Drücken Sie die <span class='blue-text'>Aktivierungstaste</span> erneut, um das teilautomatisierte Fahren zu beenden.",
@@ -155,14 +151,14 @@ const tutorialContent = {
             },
             {
                 text: "Es wird auch beendet, wenn Sie manuell Lenken oder das Bremspedal drücken.",
-                additionalMedia: "../../assets/pictures/overview/9-2.gif",
                 media: "../../assets/pictures/overview/9-2.gif",
                 additionalMedia: "../../assets/pictures/overview/9-3.gif",
                 addHr: true
             },
             {
-                text: "Bei erfolgreicher Deaktivierung, erlöschen die Lenkradlichter und das Symbol „DRIVING ASSIST“ im Display.",
-                media: "../../assets/pictures/overview/9-4.gif",
+                text: "Bei erfolgreicher Deaktivierung, erlöschen die Lenkradlichter und das Automationssymbol im " +
+                    "Display erscheint wieder weiß.",
+                media: "../../assets/pictures/overview/7neu1.gif",
             }
         ]
     },
@@ -172,8 +168,8 @@ const tutorialContent = {
             {
                 text: "Das teilautomatisierte Fahren entbindet Sie nicht von der Verantwortung als Fahrer*in. <br>" +
                     "Es funktioniert in den meisten Fällen sehr gut, kann jedoch nicht alle Fahrsituationen abdecken." +
-                    "Kommt das System an seine Grenzen, warnt es Sie und fordert zur Übernahme auf.",
-                media: "../../assets/pictures/overview/10-1.png",
+                    " Kommt das System an seine Grenzen, warnt es Sie und fordert zur Übernahme auf.",
+                media: "../../assets/pictures/overview/8neu1.gif",
                 addHr: true
             },
 
@@ -184,14 +180,13 @@ const tutorialContent = {
                 subtext: "<ul class='bullet-points'>"+
                     "<li>Das Fahrzeug erkennt einen Kreisverkehr nicht und lenkt falsch.<img class='media' src='../../assets/pictures/overview/10-1.gif' alt=''></li>"+
                     "<li>Das Fahrzeug erkennt die Fahrspur nicht wegen einer Baustelle.<img class='media' src='../../assets/pictures/overview/10-2.gif' alt=''></li>"+
-                    "<li>Das Fahrzeug bremst bei einer roten Ampel trotz Betätigung der SET-Taste nicht ab.<img class='media' src='../../assets/pictures/overview/10-3.gif' alt=''></li>"+
+                    "<li>Das Fahrzeug bremst bei einer roten Ampel nicht ab.<img class='media' src='../../assets/pictures/overview/10-3.gif' alt=''></li>"+
                     "<li>Das Fahrzeug erkennt beim Spurwechsel umliegende Fahrzeuge nicht.<img class='media' src='../../assets/pictures/overview/10-4.gif' alt=''></li>"+
                     "</ul>"
             }
         ]
     }
 };
-
 
 function renderContent(contentId) {
     const section = tutorialContent[contentId];

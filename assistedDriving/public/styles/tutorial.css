@@ -20,6 +20,7 @@ html, body {
 .swal2-confirm,
 .swal2-cancel {
     color: black !important;
+    font-size: 1.3rem !important;
 }
 
 .ps__rail-y {

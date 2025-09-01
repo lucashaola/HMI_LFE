@@ -121,6 +121,7 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
                             margin: 10px 0;
                             padding: 10px;
                             border-radius: 5px;
+                            font-size: 23px;
                         }
                         .question-option:hover {
                             background-color: #f5f5f5;
