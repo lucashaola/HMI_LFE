@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('preferencesForm');
     const saveBtn = document.getElementById('savePreferences');
 
+     // categories that are always selected and cannot be changed by the user
+    const mandatory = ['aktivierung', 'deaktivierung', 'risiken'];
+
     // build checkbox list from categories
     const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
     categories.forEach(cat => {
@@ -10,7 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = cat.key;
-        checkbox.checked = prefs.includes(cat.key);
+        
+        if (mandatory.includes(cat.key)) {
+            // mandatory categories are always selected and disabled
+            checkbox.checked = true;
+            checkbox.disabled = true;
+            label.classList.add('mandatory');
+        } else {
+            checkbox.checked = prefs.includes(cat.key);
+        }
+
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(' ' + cat.name));
         form.appendChild(label);

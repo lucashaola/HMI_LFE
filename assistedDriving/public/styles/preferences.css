@@ -100,6 +100,14 @@ html {
   background-color: #d0e0ff;
   border-color: #3b82f6;
 }
+.preferences-form label.mandatory,
+.preferences-form label.mandatory:hover,
+.preferences-form label.mandatory:has(input:checked) {
+    background-color: #e0e0e0;
+    border-color: #aaa;
+    color: #888;
+    cursor: not-allowed;
+}
 
 .preferences-form input[type="checkbox"] {
     width: 1.2em;
