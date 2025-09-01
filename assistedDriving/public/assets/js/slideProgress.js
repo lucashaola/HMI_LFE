@@ -134,6 +134,7 @@ async function showProgressOverview() {
         const response = await fetch(`/api/users/${identificationCode}`);
         const userData = await response.json();
         const unlockedCategories = JSON.parse(userData.unlocked_categories || '[]');
+        const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
 
         const merged = prefs.length > 0 ? [...new Set([...prefs, ...mandatory])] : Object.keys(tutorialContent);
         const orderedKeys = Object.keys(tutorialContent).filter(key => merged.includes(key));

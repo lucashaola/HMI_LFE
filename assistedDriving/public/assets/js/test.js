@@ -1,4 +1,5 @@
 const preferences = JSON.parse(localStorage.getItem('preferences') || '[]');
+const mandatoryCategories = ['aktivierung', 'deaktivierung', 'risiken'];
 
 /** Displays questions for a specific category or all unlocked categories */
 async function showCategoryQuestions(category = null, retryQuestions = null) {
@@ -18,7 +19,11 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
         } else {
             const categoriesToHandle = category
                 ? [category]
-                : Object.keys(categoryQuestions).filter(cat => preferences.length === 0 || preferences.includes(cat));
+                : Object.keys(categoryQuestions).filter(cat =>
+                    mandatoryCategories.includes(cat) ||
+                    preferences.length === 0 ||
+                    preferences.includes(cat)
+                );
             questionsToHandle = [];
             let hasRemainingQuestions = false;
 
@@ -30,8 +35,8 @@ async function showCategoryQuestions(category = null, retryQuestions = null) {
                 if (remainingQuestionsInCategory.length > 0) {
                     hasRemainingQuestions = true;
 
-                    const isLocked = await isCategoryUnlocked(currentCategory);
-                    if (!isLocked) continue;
+                    const isUnlocked = mandatoryCategories.includes(currentCategory) || await isCategoryUnlocked(currentCategory);
+                    if (!isUnlocked) continue;
 
                     const questionsToAdd = remainingQuestionsInCategory.map(question => ({
                         category: currentCategory,
@@ -301,7 +306,11 @@ async function showTestOverview() {
         const response = await fetch(`/api/test/${identificationCode}`);
         const testData = await response.json();
         const unlockedCategories = await getUnlockedCategories();
-        const preferredCategories = categories.filter(cat => preferences.length === 0 || preferences.includes(cat.key));
+        const preferredCategories = categories.filter(cat =>
+            mandatoryCategories.includes(cat.key) ||
+            preferences.length === 0 ||
+            preferences.includes(cat.key)
+        );
 
         const totalQuestions = Object.values(categoryQuestions).reduce((sum, category) => sum + category.length, 0);
         const correctlyAnswered = Object.values(JSON.parse(testData.correctly_answered || '{}')).reduce((sum, answers) => sum + answers.length, 0);
@@ -329,7 +338,7 @@ async function showTestOverview() {
                 const correctlyAnsweredCategory = JSON.parse(testData.correctly_answered || '{}')[category.key] || [];
                 const incorrectlyAnswered = JSON.parse(testData.currently_incorrectly_answered || '{}')[category.key] || [];
                 const totalQuestionsCategory = categoryQuestions[category.key].length;
-                const isLocked = !unlockedCategories.includes(category.key);
+                const isLocked = !unlockedCategories.includes(category.key) && !mandatoryCategories.includes(category.key);
     
                 return `
                             <div class="test-progress-circle-item ${isLocked ? 'locked' : 'unlocked'}" data-category="${category.key}">
@@ -361,7 +370,7 @@ async function showTestOverview() {
             const movementThreshold = 10; // Pixels moved to consider it a scroll
 
             const handler = async () => {
-                const isUnlocked = await isCategoryUnlocked(category);
+                const isUnlocked = mandatoryCategories.includes(category) || await isCategoryUnlocked(category);
                 if (isUnlocked) {
                     await showCategoryQuestions(category);
                 } else {

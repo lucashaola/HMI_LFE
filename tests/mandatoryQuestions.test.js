@@ -1,4 +1,6 @@
 const path = require('path');
+const fs = require('fs');
+const vm = require('vm');
 
 // Helper to reset environment before each test
 beforeEach(() => {
@@ -46,5 +48,36 @@ test('tutorial includes mandatory categories when preferences empty', () => {
   document.dispatchEvent(new Event('DOMContentLoaded'));
 
   const ids = Array.from(document.querySelectorAll('.content')).map(el => el.id);
+  expect(ids).toEqual(expect.arrayContaining(['aktivierung', 'deaktivierung', 'risiken']));
+  });
+
+test('test overview includes mandatory categories when preferences exclude them', async () => {
+  localStorage.setItem('preferences', JSON.stringify(['verkehrszeichen']));
+  localStorage.setItem('userCode', '123');
+
+  document.body.innerHTML = '<div class="test-overview"></div>';
+
+  global.fetch = jest.fn((url) => {
+    if (url.endsWith('/api/test/123')) {
+      return Promise.resolve({
+        json: () => Promise.resolve({ correctly_answered: '{}', currently_incorrectly_answered: '{}' })
+      });
+    }
+    if (url.endsWith('/api/users/123/unlocked-categories')) {
+      return Promise.resolve({
+        json: () => Promise.resolve({ unlockedCategories: [] })
+      });
+    }
+    return Promise.reject(new Error('unknown url'));
+  });
+
+  global.PerfectScrollbar = function() { return {}; };
+
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'assistedDriving/public/assets/js/categoryQuestions.js'), 'utf8'));
+  vm.runInThisContext(fs.readFileSync(path.join(__dirname, '..', 'assistedDriving/public/assets/js/test.js'), 'utf8'));
+
+  await showTestOverview();
+
+  const ids = Array.from(document.querySelectorAll('.test-progress-circle-item')).map(el => el.dataset.category);
   expect(ids).toEqual(expect.arrayContaining(['aktivierung', 'deaktivierung', 'risiken']));
 });
