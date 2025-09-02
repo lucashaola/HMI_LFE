@@ -211,7 +211,7 @@
         ]
     };
 
-    categories = Object.keys(categoryQuestions).map(key => {
+    const categories = Object.keys(categoryQuestions).map(key => {
         const nameMap = {
             aktivierung: 'Aktivierung',
             verkehrszeichen: 'Verkehrszeichenassistent',
@@ -237,5 +237,6 @@
     // Browser environment
     else {
         root.categoryQuestions = categoryQuestions;
+        root.categories = categories;
     }
 })(typeof self !== 'undefined' ? self : this);

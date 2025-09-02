@@ -212,7 +212,12 @@ function renderContent(contentId) {
         }
 
         if (item.subtext) {
-            html += `<p>${item.subtext}</p>`;
+            const containsHtml = /<[a-z][\s\S]*>/i.test(item.subtext);
+            if (containsHtml) {
+                html += item.subtext;
+            } else {
+                html += `<p>${item.subtext}</p>`;
+            }
         }
 
         if (item.addHr) {

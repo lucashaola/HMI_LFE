@@ -11,7 +11,7 @@ const setCompletionMessageShown = () => {
 };
 
 /** Dynamically generates the sidebar with category items, including icons and click handlers.*/
-function createSidebar() {
+function createSidebar(categories) {
     const sidebarContent = document.querySelector('.sidebar-content');
     sidebarContent.innerHTML = '';
 
@@ -284,18 +284,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Handle selected category from localStorage
-    const selectedCategory = localStorage.getItem('selectedCategory');
-    /*const validCategory = (selectedCategory && document.getElementById(selectedCategory)) ?
-        selectedCategory : categories[0]?.key;
-
-    if (validCategory) {
-        showContent(validCategory);
-    }
-    localStorage.removeItem('selectedCategory');*/
-    if (selectedCategory) {
-        showContent(selectedCategory);
-        localStorage.removeItem('selectedCategory');
-    }
+    const storedCategory = localStorage.getItem('selectedCategory');
+    const categoryToShow = storedCategory || categories[0].key;
+    showContent(categoryToShow);
+    localStorage.removeItem('selectedCategory');
 
     updateUnlockedCategoryCheckmarks();
 });
