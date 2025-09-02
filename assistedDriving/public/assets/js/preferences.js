@@ -8,20 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // build checkbox list from categories
     const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
     categories.forEach(cat => {
+        if (mandatory.includes(cat.key)) return; // do not render mandatory categories
+
         const label = document.createElement('label');
         label.style.display = 'block';
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = cat.key;
-        
-        if (mandatory.includes(cat.key)) {
-            // mandatory categories are always selected and disabled
-            checkbox.checked = true;
-            checkbox.disabled = true;
-            label.classList.add('mandatory');
-        } else {
-            checkbox.checked = prefs.includes(cat.key);
-        }
+        checkbox.checked = prefs.includes(cat.key);
 
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(' ' + cat.name));
@@ -30,17 +24,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     saveBtn.addEventListener('click', async () => {
         const selected = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-        localStorage.setItem('preferences', JSON.stringify(selected));
+        const merged = [...new Set([...selected, ...mandatory])];
+        localStorage.setItem('preferences', JSON.stringify(merged));
         const userCode = localStorage.getItem('userCode');
         if (userCode) {
             try {
                 await fetch(`/api/users/${userCode}/preferences`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ preferences: selected })
+                    body: JSON.stringify({ preferences: merged })
                 });
             } catch (e) { console.error('Saving preferences failed', e); }
         }
-        window.location.href = '/views/welcome';
+        window.location.href = '/views/overview';
     });
 });

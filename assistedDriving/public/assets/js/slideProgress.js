@@ -162,7 +162,7 @@ async function showProgressOverview() {
                 category.name;
 
             return `
-                <div class="slideProgress-progress-circle-item">
+                <div class="slideProgress-progress-circle-item" data-key="${category.key}">
                     <img src="${category.icon}" class="category-icon" alt="">
                     <div class="category-info">
                         <div class="category-name">${categoryName}</div>
@@ -250,20 +250,21 @@ async function showProgressOverview() {
                 });
             }
 
-            document.querySelector('.progress-slider').addEventListener('click', (event) => {
-                const item = event.target.closest('.slideProgress-progress-circle-item');
-                if (!item) return;
+            const progressSlider = document.querySelector('.progress-slider');
+            if (progressSlider) {
+                progressSlider.addEventListener('click', (event) => {
+                    const item = event.target.closest('.slideProgress-progress-circle-item');
+                    if (!item) return;
 
-                const categoryName = item.querySelector('.category-name').textContent;
-                const selectedCategory = categories.find(category => category.name === categoryName);
-
-                if (selectedCategory) {
-                    localStorage.setItem('selectedCategory', selectedCategory.key);
-                    window.location.href = '../../views/tutorial';
-                } else {
-                    console.error(`Category not found for name: ${categoryName}`);
-                }
-            });
+                    const selectedKey = item.dataset.key;
+                    if (selectedKey) {
+                        localStorage.setItem('selectedCategory', selectedKey);
+                        window.location.href = '/views/tutorial';
+                    } else {
+                        console.error('Category key not found for clicked item');
+                    }
+                });
+            }
         } else {
             // Profile Screen
             progressOverview.innerHTML = `
@@ -285,8 +286,8 @@ async function showProgressOverview() {
             `;
 
             document.querySelectorAll('.slideProgress-progress-circle-item').forEach(item => {
-                const categoryName = item.querySelector('.category-name').textContent;
-                const category = categories.find(cat => cat.name === categoryName);
+                const categoryKey = item.dataset.key;
+                const category = categories.find(cat => cat.key === categoryKey);
                 if (category) {
                     updateProgressCircle(item, category.progress);
                 }
@@ -303,8 +304,7 @@ async function showProgressOverview() {
             });
 
             document.querySelectorAll('.slideProgress-progress-circle-item').forEach(item => {
-                const categoryName = item.querySelector('.category-name').textContent;
-                const selectedCategory = categories.find(category => category.name === categoryName);
+                const categoryKey = item.dataset.key;
 
                 let touchStartX = 0;
                 let touchStartY = 0;
@@ -312,8 +312,8 @@ async function showProgressOverview() {
                 const movementThreshold = 10; // pixels moved to consider it a scroll
 
                 const handleTap = () => {
-                    if (!isScrolling && selectedCategory) {
-                        localStorage.setItem('selectedCategory', selectedCategory.key);
+                    if (!isScrolling && categoryKey) {
+                        localStorage.setItem('selectedCategory', categoryKey);
                         window.location.href = '../../views/tutorial';
                     }
                 };
@@ -338,7 +338,7 @@ async function showProgressOverview() {
                 }, { passive: true });
 
                 // Fire only if it wasn't a scroll
-                item.addEventListener('touchend', (e) => {
+                item.addEventListener('touchend', () => {
                     if (!isScrolling) {
                         handleTap();
                     }

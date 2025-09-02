@@ -229,7 +229,7 @@ async function showCompletionPopup() {
     });
 
     if (result.isConfirmed) {
-        window.location.href = '/views/welcome';
+        window.location.href = '/views/profile?view=test&startQuiz=true';
     } else if (result.dismiss === Swal.DismissReason.cancel) {
         window.location.href = '/views/welcome';
 
@@ -239,15 +239,16 @@ async function showCompletionPopup() {
 /** Initializes sidebar, main content, and PerfectScrollbar when the page loads.
 Also handles navigation and completion popups when the user attempts to leave the tutorial.*/
 document.addEventListener('DOMContentLoaded', function () {
-    const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
+    /*const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
     const merged = prefs.length > 0 ? [...new Set([...prefs, ...mandatory])] : Object.keys(tutorialContent);
-    categories = categories.filter(c => merged.includes(c.key));
+    categories = categories.filter(c => merged.includes(c.key));*/
     createSidebar(categories);
 
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
-    const contentKeys = Object.keys(tutorialContent).filter(key => merged.includes(key));
-    contentKeys.forEach(sectionId => {
+    //const contentKeys = Object.keys(tutorialContent).filter(key => merged.includes(key));//
+    //contentKeys.forEach(sectionId => {//
+    Object.keys(tutorialContent).forEach(sectionId => {
         const contentDiv = document.createElement('div');
         contentDiv.className = 'content';
         contentDiv.id = sectionId;
@@ -284,6 +285,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Handle selected category from localStorage
     const selectedCategory = localStorage.getItem('selectedCategory');
+    /*const validCategory = (selectedCategory && document.getElementById(selectedCategory)) ?
+        selectedCategory : categories[0]?.key;
+
+    if (validCategory) {
+        showContent(validCategory);
+    }
+    localStorage.removeItem('selectedCategory');*/
     if (selectedCategory) {
         showContent(selectedCategory);
         localStorage.removeItem('selectedCategory');

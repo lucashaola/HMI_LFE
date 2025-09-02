@@ -217,10 +217,10 @@ function navigateToSlide(category, index, pageType) {
     localStorage.setItem('selectedCategory', category);
 
     if (pageType === 'tutorial') {
-        window.location.href = '../../views/tutorial';
+        window.location.href = '/views/tutorial';
     } else {
         localStorage.setItem('selectedOverviewPage', index + 1);
-        window.location.href = '../../views/overview';
+        window.location.href = '/views/overview';
     }
 }
 

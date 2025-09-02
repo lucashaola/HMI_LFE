@@ -7,9 +7,16 @@ beforeEach(() => {
   jest.resetModules();
 });
 
-test('mandatory preferences are checked and disabled', () => {
+test('mandatory preferences are hidden but saved automatically', () => {
   // Set up DOM expected by preferences script
   document.body.innerHTML = '<form id="preferencesForm"></form><button id="savePreferences"></button>';
+
+  // Prevent navigation in tests
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: { href: '' }
+  });
+
 
   // Load dependencies
   require(path.join('..', 'assistedDriving/public/assets/js/categoryQuestions.js'));
@@ -21,8 +28,10 @@ test('mandatory preferences are checked and disabled', () => {
   const mandatory = ['aktivierung', 'deaktivierung', 'risiken'];
   mandatory.forEach(key => {
     const checkbox = document.querySelector(`input[type="checkbox"][value="${key}"]`);
-    expect(checkbox).not.toBeNull();
-    expect(checkbox.checked).toBe(true);
-    expect(checkbox.disabled).toBe(true);
+    expect(checkbox).toBeNull();
   });
+  document.getElementById('savePreferences').click();
+
+  const saved = JSON.parse(localStorage.getItem('preferences'));
+  expect(saved).toEqual(mandatory);
 });
