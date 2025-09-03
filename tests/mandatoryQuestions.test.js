@@ -51,6 +51,27 @@ test('tutorial includes mandatory categories when preferences empty', () => {
   expect(ids).toEqual(expect.arrayContaining(['aktivierung', 'deaktivierung', 'risiken']));
   });
 
+/*test('tutorial shows only mandatory plus selected categories', () => {
+  localStorage.setItem('preferences', JSON.stringify(['verkehrszeichen']));
+
+  document.body.innerHTML = '<div class="sidebar-content"></div><div class="main-content"></div><input class="search">';
+  Object.defineProperty(window, 'location', { value: { pathname: '/views/tutorial' }, configurable: true });
+
+  global.closeResultsOnOutsideClick = () => {};
+  global.updateUnlockedCategoryCheckmarks = () => {};
+  global.initializeBookmark = () => {};
+  global.PerfectScrollbar = function() { return { container: { addEventListener: () => {} }, update: () => {} }; };
+
+  require(path.join('..', 'assistedDriving/public/assets/js/tutorialContent.js'));
+  require(path.join('..', 'assistedDriving/public/assets/js/categoryQuestions.js'));
+  require(path.join('..', 'assistedDriving/public/assets/js/tutorial.js'));
+
+  document.dispatchEvent(new Event('DOMContentLoaded'));
+
+  const ids = Array.from(document.querySelectorAll('.content')).map(el => el.id).sort();
+  expect(ids).toEqual(['aktivierung', 'deaktivierung', 'risiken', 'verkehrszeichen'].sort());
+});*/
+
 test('test overview includes mandatory categories when preferences exclude them', async () => {
   localStorage.setItem('preferences', JSON.stringify(['verkehrszeichen']));
   localStorage.setItem('userCode', '123');

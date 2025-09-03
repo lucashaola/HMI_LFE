@@ -148,10 +148,27 @@ function filterResults() {
         resultsDiv.style.display = 'none';
         return;
     }
+    // Determine allowed categories for search. On the tutorial page we
+    // respect user preferences in addition to mandatory categories. Other
+    // pages should remain unaffected and thus include all categories.
+    const onTutorialPage = window.location.pathname.includes('tutorial');
+    let allowedCategories = Object.keys(tutorialContent);
+    if (onTutorialPage) {
+        const mandatory = ['aktivierung', 'deaktivierung', 'risiken'];
+        const prefs = JSON.parse(localStorage.getItem('preferences') || '[]');
+        allowedCategories = prefs.length > 0
+            ? [...new Set([...prefs, ...mandatory])]
+            : Object.keys(tutorialContent);
+    }
 
     let searchResults = [];
 
     Object.entries(tutorialContent).forEach(([contentId, content]) => {
+         // Skip categories that are not part of the allowed set when on the
+        // tutorial page.
+        if (onTutorialPage && !allowedCategories.includes(contentId)) {
+            return;
+        }
         content.content.forEach((slide, index) => {
             const text = slide.text || '';
             const subtext = slide.subtext || '';
