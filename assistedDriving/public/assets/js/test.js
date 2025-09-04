@@ -313,7 +313,9 @@ async function showTestOverview() {
             preferences.includes(cat.key)
         );
 
-        const totalQuestions = Object.values(categoryQuestions).reduce((sum, category) => sum + category.length, 0);
+         const totalQuestions = preferredCategories
+            .filter(cat => mandatoryCategories.includes(cat.key) || unlockedCategories.includes(cat.key))
+            .reduce((sum, cat) => sum + categoryQuestions[cat.key].length, 0);
         const correctlyAnswered = Object.values(JSON.parse(testData.correctly_answered || '{}')).reduce((sum, answers) => sum + answers.length, 0);
 
         testOverviewContainer.innerHTML = `
