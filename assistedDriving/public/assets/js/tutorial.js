@@ -243,7 +243,7 @@ async function showCompletionPopup() {
     if (result.isConfirmed) {
         window.location.href = '/views/welcome';
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-        window.location.href = '/views/profile?view=test&startQuiz=true';
+        window.location.href = '/views/profile?view=test';
 
     }
 }

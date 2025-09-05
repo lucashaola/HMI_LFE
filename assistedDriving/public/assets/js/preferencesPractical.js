@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mean = (pracVal + theoVal) / 2;
             prefs[system.name] = { practical: pracVal, theoretical: theoVal, mean };
             const sectionId = systemIdMap[system.name];
-            if (sectionId) visibility[sectionId] = mean <= 3;
+            if (sectionId) visibility[sectionId] = mean > 3;
         });
         
         localStorage.setItem('preferences', JSON.stringify(prefs));

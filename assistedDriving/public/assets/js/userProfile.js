@@ -155,7 +155,7 @@ async function fetchAndRedirectPreferences(code) {
             const mean = (practical + theoretical) / 2;
             values.mean = mean;
             const id = systemIdMap[system];
-            if (id) visibility[id] = mean <= 3;
+            if (id) visibility[id] = mean > 3;
         });
         
         localStorage.setItem('preferences', JSON.stringify(prefs));
