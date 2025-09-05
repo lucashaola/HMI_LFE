@@ -128,7 +128,8 @@ async function createNewProfile() {
             const userData = await response.json();
             localStorage.setItem('userName', name);
             localStorage.setItem('userCode', userData.identification_code);
-            handlePreferencesRedirect(JSON.stringify(userData.preferences || []));
+            // Initialize empty preferences locally; do not redirect yet
+            localStorage.setItem('preferences', JSON.stringify({}));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
@@ -153,7 +154,7 @@ async function createNewProfile() {
             // After creating a new profile, show the Landing page once
             try { localStorage.setItem('landingAllowed', '1'); } catch (e) {}
             window.location.href = '/views/landing';
-            await fetchAndRedirectPreferences(userData.identification_code);
+            // Do not immediately fetch+redirect; Landing should be shown first
         }
     } catch (error) {
         console.error('Error creating profile:', error);
@@ -189,9 +190,12 @@ async function fetchAndRedirectPreferences(code) {
         
         localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
-
+        const landingAllowed = localStorage.getItem('landingAllowed') === '1';
         if (!prefs || Object.keys(prefs).length === 0) {
-            window.location.href = '/views/preferencesTheoretical';
+            // Skip auto-redirect while we intentionally show Landing once
+            if (!landingAllowed) {
+                window.location.href = '/views/preferencesTheoretical';
+            }
         }
     } catch (e) {
         console.error('Error fetching preferences:', e);

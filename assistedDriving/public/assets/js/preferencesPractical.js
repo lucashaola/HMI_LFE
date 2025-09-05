@@ -29,6 +29,24 @@ const systemIdMap = {
     'Notbremsassistent': 'notbrems'
 };
 
+// Debounced persistence of preferences to the server
+let pracPersistTimer = null;
+function schedulePracPersist() {
+    clearTimeout(pracPersistTimer);
+    pracPersistTimer = setTimeout(async () => {
+        try {
+            const userCode = localStorage.getItem('userCode');
+            if (!userCode) return;
+            const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+            await fetch(`/api/users/${userCode}/preferences`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ preferences: prefs })
+            });
+        } catch (e) { /* ignore */ }
+    }, 500);
+}
+
 
 function buildTable(tableEl, prefix) {
     const header = document.createElement('tr');
@@ -63,6 +81,7 @@ function buildTable(tableEl, prefix) {
                     if (!prefs[system.name]) prefs[system.name] = {};
                     prefs[system.name].practical = parseInt(input.value, 10);
                     localStorage.setItem('preferences', JSON.stringify(prefs));
+                    schedulePracPersist();
                 } catch (e) { /* noop */ }
             };
 

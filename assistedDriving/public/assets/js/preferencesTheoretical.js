@@ -21,6 +21,24 @@ const assistanceSystems = [
     }
 ];
 
+// Debounced persistence of preferences to the server
+let theoPersistTimer = null;
+function scheduleTheoPersist() {
+    clearTimeout(theoPersistTimer);
+    theoPersistTimer = setTimeout(async () => {
+        try {
+            const userCode = localStorage.getItem('userCode');
+            if (!userCode) return;
+            const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+            await fetch(`/api/users/${userCode}/preferences`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ preferences: prefs })
+            });
+        } catch (e) { /* ignore */ }
+    }, 500);
+}
+
 function buildTable(tableEl, prefix) {
     const header = document.createElement('tr');
     header.appendChild(document.createElement('th'));
@@ -54,6 +72,7 @@ function buildTable(tableEl, prefix) {
                     if (!prefs[system.name]) prefs[system.name] = {};
                     prefs[system.name].theoretical = parseInt(input.value, 10);
                     localStorage.setItem('preferences', JSON.stringify(prefs));
+                    scheduleTheoPersist();
                 } catch (e) { /* noop */ }
             };
 
@@ -100,7 +119,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    document.getElementById('nextPreferences').addEventListener('click', () => {
+    document.getElementById('nextPreferences').addEventListener('click', async () => {
         // Validate that every row has a selection
         const missing = [];
         assistanceSystems.forEach((_, index) => {
@@ -140,6 +159,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             prefs[system.name].theoretical = val;
         });
         localStorage.setItem('preferences', JSON.stringify(prefs));
+        try {
+            const code = localStorage.getItem('userCode');
+            if (code) {
+                await fetch(`/api/users/${code}/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preferences: prefs })
+                });
+            }
+        } catch (e) { /* ignore */ }
         window.location.href = '/views/preferencesPractical';
     });
 });
