@@ -122,6 +122,11 @@ function initializeProfileScreen() {
         button?.addEventListener('click', () => setActiveView(key));
     });
 
+    const preferencesBtn = document.querySelector('.preferences-btn');
+    preferencesBtn?.addEventListener('click', () => {
+        window.location.href = '/views/preferencesTheoretical';
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view');
     const startQuiz = urlParams.get('startQuiz') === 'true';

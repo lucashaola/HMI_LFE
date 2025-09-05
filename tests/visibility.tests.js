@@ -11,3 +11,11 @@ test('calculateTutorialVisibility filters categories by mean', () => {
   assert.strictEqual(visibility.verkehrszeichen, true);
   assert.strictEqual(visibility.geschwindigkeit, false);
 });
+
+test('calculateTutorialVisibility always includes mandatory categories', () => {
+  const prefs = {};
+  const visibility = calculateTutorialVisibility(prefs);
+  assert.strictEqual(visibility.aktivierung, true);
+  assert.strictEqual(visibility.deaktivierung, true);
+  assert.strictEqual(visibility.risiken, true);
+});

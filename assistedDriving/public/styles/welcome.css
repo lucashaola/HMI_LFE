@@ -21,6 +21,7 @@ html {
 .swal2-confirm,
 .swal2-cancel {
     color: black;
+    font-size: 1.3rem !important;
 }
 
 /* Header Styles */
@@ -156,7 +157,7 @@ html {
 
 .overview-button{
     color: #1d2e51;
-    font-size: large;
+    font-size: 1.5em;
     flex: 0.3;
     background-color: #e1e7f4;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -181,7 +182,7 @@ html {
     border: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin-top: 20px;
-    font-size: large;
+    font-size: 1.5em;
     background-color: whitesmoke;
 }
 
@@ -352,7 +353,7 @@ html {
 }
 
 .category-name {
-    font-size: 1.2em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 

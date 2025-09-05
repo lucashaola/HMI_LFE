@@ -93,6 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
             Object.values(systemIdMap).map(id => [id, false])
         );
 
+        // Ensure mandatory categories are always visible
+        visibility.aktivierung = true;
+        visibility.deaktivierung = true;
+        visibility.risiken = true;
+
         assistanceSystems.forEach((system, index) => {
             const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
             const practical = sel ? parseInt(sel.value, 10) : null;
