@@ -612,14 +612,14 @@ app.delete('/api/events/expired', (req, res) => {
 // Routing
 app.get('/', (req, res) => {
     // Serve the welcome page by default
-    res.status(200).sendFile(path.join(__dirname, 'public', 'views', 'landing', 'index.html'));
+    res.status(200).sendFile(path.join(__dirname, 'public', 'views', 'welcome', 'index.html'));
 });
 
 
 // Error handling for undefined routes
 app.use((req, res) => {
      // Fallback to the welcome page for any undefined route
-    res.status(404).sendFile(path.join(__dirname, 'public', 'views', 'landing', 'index.html'));
+    res.status(404).sendFile(path.join(__dirname, 'public', 'views', 'welcome', 'index.html'));
  });
 function getWifiIP() {
     const interfaces = os.networkInterfaces();

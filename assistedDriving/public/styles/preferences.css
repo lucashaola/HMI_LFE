@@ -84,12 +84,15 @@ html {
     margin-bottom: 20px;
     font-weight: 500;
     text-align: center;
+    font-size: 1.4em;
 }
 
 .preferences-form table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
+    table-layout: fixed;
+    font-size: 1em;
 }
 
 .preferences-form th,
@@ -97,21 +100,39 @@ html {
     border: 2px solid black;
     padding: 10px;
     text-align: center;
+    vertical-align: middle;
+    font-size: 1.05em;
 }
 .preferences-form th {
     font-size: 0.9em;
     white-space: normal;
 }
-preferences-form td:first-child,
+.preferences-form td:first-child,
 .preferences-table th:first-child,
 .preferences-table td:first-child {
     text-align: left;
     width: 40%;
 }
 
+/* Distribute remaining width equally among the 7 option columns */
+.preferences-form th:not(:first-child),
+.preferences-form td:not(:first-child) {
+    width: calc(60% / 7);
+}
+
 .preferences-form input[type="radio"] {
-    width: 1.2em;
-    height: 1.2em;
+    width: 1.6em;
+    height: 1.6em;
+}
+
+/* Make option cells fully clickable and keep spacing consistent */
+.preferences-form .option-cell {
+    cursor: pointer;
+    position: relative;
+    min-height: 44px; /* Touch-friendly */
+}
+.preferences-form .option-cell:hover {
+    background-color: #f5f7fb;
 }
 .preferences-table {
     border-collapse: collapse;
@@ -136,22 +157,38 @@ preferences-form td:first-child,
 
 .button-container {
     position: fixed;
-    bottom: 70px;
+    bottom: 95px;
     left: 14px;
-    width: 100%;
+    width: 97%;
     display: flex;
     justify-content: center;
     gap: 40px;
-    padding: 8px 0;
+    padding: 12px 0;
     z-index: 10;
     
 }
 
 button {
-    padding: 10px 20px;
-    font-size: 1.2em;
+    padding: 10px 30px;
+    font-size: 1.4em;
     border-radius: 5px;
     border: none;
     background: #8daddd;
     cursor: pointer;
+    color: #000;
+    font-weight: bold;
+}
+.button-container-practical {
+    position: fixed;
+    bottom: 95px;
+    left: 14px;
+    width: 99%;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 12px 0;
+    z-index: 10;
+}
+#practicalSection{
+    margin-top: 10px;
 }

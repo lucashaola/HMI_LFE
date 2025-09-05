@@ -254,11 +254,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
     const hasPrefs = Object.keys(prefs).length > 0;
     const tutorialVisibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+    const defaultVisibleIfEmpty = !tutorialVisibility || Object.keys(tutorialVisibility).length === 0;
 
     // remove excluded or hidden categories
     if (Array.isArray(categories)) {
         categories = categories.filter(cat =>
-            !excludedCategories.includes(cat.key) && tutorialVisibility[cat.key] === true
+            !excludedCategories.includes(cat.key) && (defaultVisibleIfEmpty || tutorialVisibility[cat.key] === true)
         );
         createSidebar(categories);
     } else {
@@ -272,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
     const contentKeys = Object.keys(tutorialContent).filter(key =>
-        !excludedCategories.includes(key) && tutorialVisibility[key] === true
+        !excludedCategories.includes(key) && (defaultVisibleIfEmpty || tutorialVisibility[key] === true)
     );
     contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');

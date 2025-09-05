@@ -40,7 +40,14 @@ function initializeWelcomeScreen() {
 
     const userSwitch = document.getElementById("userSwitch");
     if (userSwitch) {
-        userSwitch.addEventListener("click", checkForExistingProfile);
+        // Defer to global function if/when it's loaded to avoid ReferenceError
+        userSwitch.addEventListener("click", () => {
+            if (typeof window.checkForExistingProfile === 'function') {
+                window.checkForExistingProfile(true);
+            } else {
+                console.warn('checkForExistingProfile is not available yet');
+            }
+        });
     }
 
     closeResultsOnOutsideClick();
@@ -122,10 +129,13 @@ function initializeProfileScreen() {
         button?.addEventListener('click', () => setActiveView(key));
     });
 
+    // Navigate to preferences flow
     const preferencesBtn = document.querySelector('.preferences-btn');
-    preferencesBtn?.addEventListener('click', () => {
-        window.location.href = '/views/preferencesTheoretical';
-    });
+    if (preferencesBtn) {
+        preferencesBtn.addEventListener('click', () => {
+            window.location.href = '/views/preferencesTheoretical';
+        });
+    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view');

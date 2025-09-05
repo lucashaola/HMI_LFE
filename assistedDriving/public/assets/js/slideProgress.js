@@ -134,16 +134,32 @@ async function showProgressOverview() {
         const userData = await response.json();
         const unlockedCategories = JSON.parse(userData.unlocked_categories || '[]');
 
-        //categories = categories.map(category => ({
-        const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
-        // If preferences object has keys, use all categories for now
-        categories = categories.map(category => ({
+        // Show only categories that are visible according to preferences
+        const tutorialVisibility = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
+        const excluded = ['stau', 'spurwechsel'];
+        let visibleCategories = [];
+        if (Array.isArray(categories)) {
+            const hasVisibility = tutorialVisibility && Object.keys(tutorialVisibility).length > 0;
+            if (!hasVisibility) {
+                visibleCategories = categories.filter(cat => !excluded.includes(cat.key));
+            } else {
+                visibleCategories = categories.filter(cat => tutorialVisibility[cat.key] === true && !excluded.includes(cat.key));
+                // Fallback: if nothing visible due to inconsistent storage, show all non-excluded
+                if (visibleCategories.length === 0) {
+                    visibleCategories = categories.filter(cat => !excluded.includes(cat.key));
+                }
+            }
+        }
+
+        const catsWithProgress = visibleCategories.map(category => ({
             ...category,
             progress: unlockedCategories.includes(category.key) ? 100 : 0
         }));
 
-        //const totalProgress = Math.round((unlockedCategories.length / categories.length) * 100);
-         const totalProgress = Math.round((unlockedCategories.length / categories.length) * 100);
+        const completedCount = catsWithProgress.filter(c => c.progress === 100).length;
+        const totalProgress = catsWithProgress.length > 0
+            ? Math.round((completedCount / catsWithProgress.length) * 100)
+            : 0;
         const totalProgressHTML = `
             <div class="total-progress-container">
                 <div class="total-progress-bar">
@@ -209,7 +225,7 @@ async function showProgressOverview() {
 
                     const itemsPerPage = getItemsPerPage();
 
-                    for (let i = 0; i < Math.ceil(categories.length / itemsPerPage); i++) {
+                    for (let i = 0; i < Math.ceil(catsWithProgress.length / itemsPerPage); i++) {
                         const page = document.createElement('div');
                         page.className = 'progress-page';
 
@@ -217,8 +233,8 @@ async function showProgressOverview() {
                         gridContainer.className = 'progress-grid';
                         page.appendChild(gridContainer);
 
-                        for (let j = i * itemsPerPage; j < Math.min((i * itemsPerPage) + itemsPerPage, categories.length); j++) {
-                            const category = categories[j];
+                        for (let j = i * itemsPerPage; j < Math.min((i * itemsPerPage) + itemsPerPage, catsWithProgress.length); j++) {
+                            const category = catsWithProgress[j];
                             gridContainer.insertAdjacentHTML('beforeend', renderCategoryItem(category));
                             const lastItem = gridContainer.lastElementChild;
                             updateProgressCircle(lastItem, category.progress);
@@ -252,7 +268,7 @@ async function showProgressOverview() {
                 if (!item) return;
 
                 const categoryName = item.querySelector('.category-name').textContent;
-                const selectedCategory = categories.find(category => category.name === categoryName);
+                const selectedCategory = catsWithProgress.find(category => category.name === categoryName);
 
                 if (selectedCategory) {
                     localStorage.setItem('selectedCategory', selectedCategory.key);
@@ -271,7 +287,7 @@ async function showProgressOverview() {
                 </div>
                 <h2 class="categories-heading">Kategorien</h2>
                 <div class="slideProgress-progress-circles">
-                            ${categories.map(category => renderCategoryItem(category, category.progress)).join('')}
+                            ${catsWithProgress.map(category => renderCategoryItem(category, category.progress)).join('')}
                 </div>
                 <hr>
                 <div class="test-action-container">
@@ -283,7 +299,7 @@ async function showProgressOverview() {
 
             document.querySelectorAll('.slideProgress-progress-circle-item').forEach(item => {
                 const categoryName = item.querySelector('.category-name').textContent;
-                const category = categories.find(cat => cat.name === categoryName);
+                const category = catsWithProgress.find(cat => cat.name === categoryName);
                 if (category) {
                     updateProgressCircle(item, category.progress);
                 }
@@ -301,7 +317,7 @@ async function showProgressOverview() {
 
             document.querySelectorAll('.slideProgress-progress-circle-item').forEach(item => {
                 const categoryName = item.querySelector('.category-name').textContent;
-                const selectedCategory = categories.find(category => category.name === categoryName);
+                const selectedCategory = catsWithProgress.find(category => category.name === categoryName);
 
                 let touchStartX = 0;
                 let touchStartY = 0;

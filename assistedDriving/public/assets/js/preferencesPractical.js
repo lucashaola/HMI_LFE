@@ -49,11 +49,32 @@ function buildTable(tableEl, prefix) {
 
         for (let i = 0; i <= 6; i++) {
             const td = document.createElement('td');
+            td.className = 'option-cell';
             const input = document.createElement('input');
             input.type = 'radio';
             input.name = `${prefix}-${index}`;
             input.value = i;
+            input.id = `${prefix}-${index}-${i}`;
             td.appendChild(input);
+
+            const saveSelection = () => {
+                try {
+                    const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
+                    if (!prefs[system.name]) prefs[system.name] = {};
+                    prefs[system.name].practical = parseInt(input.value, 10);
+                    localStorage.setItem('preferences', JSON.stringify(prefs));
+                } catch (e) { /* noop */ }
+            };
+
+            // Make the entire cell clickable
+            td.addEventListener('click', () => {
+                input.checked = true;
+                saveSelection();
+            });
+
+            // Also save on direct input change
+            input.addEventListener('change', saveSelection);
+
             row.appendChild(td);
         }
 
@@ -61,8 +82,21 @@ function buildTable(tableEl, prefix) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const practicalTable = document.getElementById('practicalTable');
+    // Try to load saved preferences from server for this user
+    const userCode = localStorage.getItem('userCode');
+    if (userCode) {
+        try {
+            const res = await fetch(`/api/users/${userCode}/preferences`);
+            const data = await res.json();
+            const prefs = data.preferences ? JSON.parse(data.preferences) : {};
+            if (prefs && Object.keys(prefs).length > 0) {
+                localStorage.setItem('preferences', JSON.stringify(prefs));
+            }
+        } catch (e) { /* ignore fetch errors */ }
+    }
+
     buildTable(practicalTable, 'prac');
 
     const storedPrefs = JSON.parse(localStorage.getItem('preferences') || '{}');
@@ -75,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('backToTheoretical').addEventListener('click', () => {
+    document.getElementById('backToTheoretical').addEventListener('click', async () => {
         const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
         assistanceSystems.forEach((system, index) => {
             const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
@@ -84,6 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
             prefs[system.name].practical = val;
         });
         localStorage.setItem('preferences', JSON.stringify(prefs));
+        const userCode = localStorage.getItem('userCode');
+        if (userCode) {
+            try {
+                await fetch(`/api/users/${userCode}/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preferences: prefs })
+                });
+            } catch (e) { /* ignore */ }
+        }
         window.location.href = '/views/preferencesTheoretical';
     });
 
