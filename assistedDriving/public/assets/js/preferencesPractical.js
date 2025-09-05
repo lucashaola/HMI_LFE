@@ -89,18 +89,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('savePreferences').addEventListener('click', async () => {
         const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
-        const visibility = {};
+        const visibility = Object.fromEntries(
+            Object.values(systemIdMap).map(id => [id, false])
+        );
 
         assistanceSystems.forEach((system, index) => {
             const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
-            const pracVal = sel ? parseInt(sel.value, 10) : 0;
-            const theoVal = prefs[system.name]?.theoretical || 0;
-            const mean = (pracVal + theoVal) / 2;
-            prefs[system.name] = { practical: pracVal, theoretical: theoVal, mean };
-            const sectionId = systemIdMap[system.name];
-            if (sectionId) visibility[sectionId] = mean > 3;
+            const practical = sel ? parseInt(sel.value, 10) : null;
+            const theoretical = (prefs[system.name] && typeof prefs[system.name].theoretical === 'number')
+                ? prefs[system.name].theoretical
+                : null;
+
+            let mean = null;
+            if (typeof practical === 'number' && typeof theoretical === 'number') {
+                mean = (practical + theoretical) / 2;
+            } else if (typeof practical === 'number') {
+                mean = practical;
+            } else if (typeof theoretical === 'number') {
+                mean = theoretical;
+            }
+
+            if (!prefs[system.name]) prefs[system.name] = {};
+            prefs[system.name].practical = practical;
+            prefs[system.name].theoretical = theoretical;
+            if (mean !== null) prefs[system.name].mean = mean;
+
+            let sectionId = systemIdMap[system.name];
+            if (sectionId && sectionId.toLowerCase && sectionId.toLowerCase().startsWith('spur')) {
+                sectionId = 'spurführung';
+            }
+            if (sectionId) visibility[sectionId] = mean !== null && mean <= 3;
         });
-        
+
         localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
 

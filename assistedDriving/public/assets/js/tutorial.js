@@ -243,7 +243,7 @@ async function showCompletionPopup() {
     if (result.isConfirmed) {
         window.location.href = '/views/welcome';
     } else if (result.dismiss === Swal.DismissReason.cancel) {
-        window.location.href = '/views/profile?view=test';
+        window.location.href = '/views/profile?view=test&startQuiz=true';
 
     }
 }
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // remove excluded or hidden categories
     if (Array.isArray(categories)) {
         categories = categories.filter(cat =>
-            !excludedCategories.includes(cat.key) && tutorialVisibility[cat.key] !== false
+            !excludedCategories.includes(cat.key) && tutorialVisibility[cat.key] === true
         );
         createSidebar(categories);
     } else {
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Generate content for each section
     const mainContent = document.querySelector('.main-content');
     const contentKeys = Object.keys(tutorialContent).filter(key =>
-        !excludedCategories.includes(key) && tutorialVisibility[key] !== false
+        !excludedCategories.includes(key) && tutorialVisibility[key] === true
     );
     contentKeys.forEach(sectionId => {
         const contentDiv = document.createElement('div');

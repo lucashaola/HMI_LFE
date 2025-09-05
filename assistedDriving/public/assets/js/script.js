@@ -124,8 +124,14 @@ function initializeProfileScreen() {
 
     const urlParams = new URLSearchParams(window.location.search);
     const viewParam = urlParams.get('view');
+    const startQuiz = urlParams.get('startQuiz') === 'true';
+
 
     setActiveView(viewParam || 'overview');
+
+    if (viewParam === 'test' && startQuiz && typeof showCategoryQuestions === 'function') {
+        showCategoryQuestions();
+    }
 }
 
 /** Filters and displays search results based on user input */
@@ -147,7 +153,7 @@ function filterResults() {
     let searchResults = [];
 
     Object.entries(tutorialContent)
-        .filter(([id]) => tutorialVisibility[id] !== false && !excludedCategories.includes(id))
+        .filter(([id]) => tutorialVisibility[id] === true && !excludedCategories.includes(id))
         .forEach(([contentId, content]) => {
             content.content.forEach((slide, index) => {
                 const text = slide.text || '';

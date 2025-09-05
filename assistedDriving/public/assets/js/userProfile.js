@@ -1,3 +1,41 @@
+const systemIdMap = {
+    'Verkehrszeichenassistent': 'verkehrszeichen',
+    'Abstandsregeltempomat': 'geschwindigkeit',
+    'Ampelerkennung': 'ampelerkennung',
+    'Spurführungsassistent': 'spurführung',
+    'Notbremsassistent': 'notbrems'
+};
+
+function calculateTutorialVisibility(prefs) {
+    const visibility = Object.fromEntries(
+        Object.values(systemIdMap).map(id => [id, false])
+    );
+
+    Object.keys(prefs).forEach(system => {
+        const values = prefs[system] || {};
+        const practical = (typeof values.practical === 'number') ? values.practical : null;
+        const theoretical = (typeof values.theoretical === 'number') ? values.theoretical : null;
+
+        let mean = null;
+        if (typeof practical === 'number' && typeof theoretical === 'number') {
+            mean = (practical + theoretical) / 2;
+        } else if (typeof practical === 'number') {
+            mean = practical;
+        } else if (typeof theoretical === 'number') {
+            mean = theoretical;
+        }
+
+        if (mean !== null) values.mean = mean;
+        let id = systemIdMap[system];
+        if (id && id.toLowerCase && id.toLowerCase().startsWith('spur')) {
+            id = 'spurführung';
+        }
+        if (id) visibility[id] = mean !== null && mean <= 3;
+    });
+
+    return visibility;
+}
+
 function checkForExistingProfile(isButtonClick = false) {
     const hasCheckedProfile = localStorage.getItem('hasCheckedProfile');
     const userName = localStorage.getItem('userName');
@@ -89,7 +127,6 @@ async function createNewProfile() {
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${name}!`;
-            showProgressOverview();
 
             await sendEvent(userData.identification_code, 'welcome');
 
@@ -108,6 +145,7 @@ async function createNewProfile() {
                     container: 'swal-container-custom'
                 }
             });
+            window.location.href = '/views/preferencesTheoretical';
             await fetchAndRedirectPreferences(userData.identification_code);
         }
     } catch (error) {
@@ -134,29 +172,13 @@ function generateIdentificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+
 async function fetchAndRedirectPreferences(code) {
     try {
         const res = await fetch(`/api/users/${code}/preferences`);
         const data = await res.json();
         const prefs = data.preferences ? JSON.parse(data.preferences) : {};
-        const systemIdMap = {
-            'Verkehrszeichenassistent': 'verkehrszeichen',
-            'Abstandsregeltempomat': 'geschwindigkeit',
-            'Ampelerkennung': 'ampelerkennung',
-            'Spurführungsassistent': 'spurführung',
-            'Notbremsassistent': 'notbrems'
-        };
-
-        const visibility = {};
-        Object.keys(prefs).forEach(system => {
-            const values = prefs[system] || {};
-            const practical = values.practical || 0;
-            const theoretical = values.theoretical || 0;
-            const mean = (practical + theoretical) / 2;
-            values.mean = mean;
-            const id = systemIdMap[system];
-            if (id) visibility[id] = mean > 3;
-        });
+        const visibility = calculateTutorialVisibility(prefs);
         
         localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
@@ -290,4 +312,8 @@ function handlePreferencesRedirect(prefsString) {
     if (Object.keys(prefs).length === 0) {
         window.location.href = '/views/preferencesTheoretical';
     }
+}
+
+if (typeof module !== 'undefined') {
+    module.exports = { calculateTutorialVisibility };
 }

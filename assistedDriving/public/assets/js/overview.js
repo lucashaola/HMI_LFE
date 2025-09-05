@@ -4,7 +4,7 @@ const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
 const visibilitySettings = JSON.parse(localStorage.getItem('tutorialVisibility') || '{}');
 const excludedCategories = ['stau', 'spurwechsel'];
 const orderedKeys = Object.keys(tutorialContent)
-    .filter(key => visibilitySettings[key] !== false && !excludedCategories.includes(key));
+    .filter(key => visibilitySettings[key] === true && !excludedCategories.includes(key));
 const totalPages = orderedKeys.length;
 let currentPage = 1;
 
@@ -133,7 +133,7 @@ function setupScrollListener() {
 /** Handles navigation between pages (forward and backward) and includes logic for transitioning to other views (e.g., welcome screen or knowledge test) after completing the tutorial. */
 async function navigatePage(direction) {
     if (currentPage === 1 && direction === -1) {
-        window.location.href = '../../views/welcome';
+        window.location.href = '../../views/preferencesPractical';
         return;
     }
     if (currentPage === totalPages) {
@@ -153,7 +153,7 @@ async function navigatePage(direction) {
             if (result.isConfirmed) {
                 window.location.href = '../../views/welcome';
             } else {
-                window.location.href = '../../views/profile?view=test';
+                window.location.href = '../../views/profile?view=test&startQuiz=true';
             }
 
             return;
