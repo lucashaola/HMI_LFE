@@ -216,7 +216,6 @@ async function showExistingProfiles() {
 
             localStorage.setItem('userCode', result.value);
             localStorage.setItem('userName', selectedProfile.name);
-            handlePreferencesRedirect(JSON.stringify(selectedProfile.preferences || []));
 
             document.querySelector('.welcome h1').innerHTML =
                 `<img src="../../assets/icons/welcome/Profile.svg" class="welcome-icon" alt=""> Willkommen ${selectedProfile.name}!`;
@@ -256,21 +255,5 @@ async function showExistingProfiles() {
                 container: 'swal-container-custom'
             }
         });
-    }
-}
-
-function handlePreferencesRedirect(prefsString) {
-    let prefs;
-    try {
-        prefs = JSON.parse(prefsString);
-        if (!Array.isArray(prefs)) {
-            prefs = [];
-        }
-    } catch (e) {
-        prefs = [];
-    }
-    localStorage.setItem('preferences', JSON.stringify(prefs));
-    if (prefs.length === 0) {
-        window.location.href = '/views/preferences';
     }
 }

@@ -25,7 +25,7 @@ const db = new sqlite3.Database('users.db', (err) => {
             name TEXT NOT NULL,
             total_progress INTEGER DEFAULT 0,
             unlocked_categories TEXT DEFAULT '[]',
-            preferences TEXT DEFAULT '{}',
+            preferences TEXT DEFAULT '[]',
             total_bonusPoints_score INTEGER DEFAULT 0 CHECK (total_bonusPoints_score >= 0 AND total_bonusPoints_score <= 100),
             assistance_kilometer INTEGER DEFAULT 0,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -96,7 +96,7 @@ app.post('/api/users', (req, res) => {
         //`INSERT INTO profiles (identification_code, name, unlocked_categories, total_bonusPoints_score, assistance_kilometer) VALUES (?, ?, ?, 0, 0)`,
         //[identificationCode, name, JSON.stringify([])],
          `INSERT INTO profiles (identification_code, name, unlocked_categories, preferences, total_bonusPoints_score, assistance_kilometer) VALUES (?, ?, ?, ?, 0, 0)`,
-        [identificationCode, name, JSON.stringify([]), JSON.stringify({})],
+        [identificationCode, name, JSON.stringify([]), JSON.stringify([])],
         function (err) {
             if (err) {
                 res.status(400).json({error: err.message});
@@ -132,13 +132,21 @@ app.get('/api/users/:code/preferences', (req, res) => {
     const { code } = req.params;
     db.get('SELECT preferences FROM profiles WHERE identification_code = ?', [code], (err, row) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json({ preferences: row ? row.preferences : '{}' });
+        const raw = row ? row.preferences : '[]';
+        let out = '[]';
+        try {
+            const parsed = JSON.parse(raw);
+            out = Array.isArray(parsed) ? JSON.stringify(parsed) : '[]';
+        } catch (e) {
+            out = '[]';
+        }
+        res.json({ preferences: out });
     });
 });
 
 app.post('/api/users/:code/preferences', (req, res) => {
     const { code } = req.params;
-    const preferences = JSON.stringify(req.body.preferences || {});
+    const preferences = JSON.stringify(Array.isArray(req.body.preferences) ? req.body.preferences : []);
     db.run('UPDATE profiles SET preferences = ? WHERE identification_code = ?', [preferences, code], (err) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json({ success: true });
