@@ -101,10 +101,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById('nextPreferences').addEventListener('click', () => {
+        // Validate that every row has a selection
+        const missing = [];
+        assistanceSystems.forEach((_, index) => {
+            const sel = document.querySelector(`input[name="theo-${index}"]:checked`);
+            if (!sel) missing.push(index);
+        });
+
+        if (missing.length > 0) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Unvollständig',
+                    text: 'Bitte füllen Sie alles aus, bevor Sie fortfahren.',
+                    icon: 'warning',
+                    background: 'whitesmoke',
+                    color: '#000000',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#e4e4e7',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    scrollbarPadding: false,
+                    heightAuto: false,
+                    customClass: { container: 'swal-container-custom' }
+                }).then(() => {
+                    const first = document.querySelector(`input[name="theo-${missing[0]}"]`);
+                    first?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                });
+            }
+            return;
+        }
+
+        // Save when all rows are answered
         const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
         assistanceSystems.forEach((system, index) => {
             const sel = document.querySelector(`input[name="theo-${index}"]:checked`);
-            const val = sel ? parseInt(sel.value, 10) : 0;
+            const val = parseInt(sel.value, 10);
             if (!prefs[system.name]) prefs[system.name] = {};
             prefs[system.name].theoretical = val;
         });

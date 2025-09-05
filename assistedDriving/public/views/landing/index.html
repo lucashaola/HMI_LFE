@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
+    <script>
+        // Only allow showing the Landing page right after creating a new profile
+        (function () {
+            try {
+                var allowed = localStorage.getItem('landingAllowed') === '1';
+                if (!allowed) {
+                    window.location.replace('/views/welcome');
+                } else {
+                    localStorage.removeItem('landingAllowed');
+                }
+            } catch (e) {
+                // If localStorage is not available, fall back to Welcome
+                window.location.replace('/views/welcome');
+            }
+        })();
+    </script>
     <link href="../../styles/landing.css" rel="stylesheet">
 </head>
 <body>

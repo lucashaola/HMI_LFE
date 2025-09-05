@@ -150,7 +150,9 @@ async function createNewProfile() {
                     container: 'swal-container-custom'
                 }
             });
-            window.location.href = '/views/preferencesTheoretical';
+            // After creating a new profile, show the Landing page once
+            try { localStorage.setItem('landingAllowed', '1'); } catch (e) {}
+            window.location.href = '/views/landing';
             await fetchAndRedirectPreferences(userData.identification_code);
         }
     } catch (error) {

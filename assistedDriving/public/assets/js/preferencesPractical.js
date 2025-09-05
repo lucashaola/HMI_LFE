@@ -132,6 +132,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.getElementById('savePreferences').addEventListener('click', async () => {
+        // Validate that every row has a selection
+        const missing = [];
+        assistanceSystems.forEach((_, index) => {
+            const sel = document.querySelector(`input[name="prac-${index}"]:checked`);
+            if (!sel) missing.push(index);
+        });
+
+        if (missing.length > 0) {
+            if (typeof Swal !== 'undefined') {
+                await Swal.fire({
+                    title: 'Unvollständig',
+                    text: 'Bitte füllen Sie alles aus, bevor Sie speichern.',
+                    icon: 'warning',
+                    background: 'whitesmoke',
+                    color: '#000000',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#e4e4e7',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    scrollbarPadding: false,
+                    heightAuto: false,
+                    customClass: { container: 'swal-container-custom' }
+                });
+                const first = document.querySelector(`input[name="prac-${missing[0]}"]`);
+                first?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+
         const prefs = JSON.parse(localStorage.getItem('preferences') || '{}');
         const visibility = Object.fromEntries(
             Object.values(systemIdMap).map(id => [id, false])
