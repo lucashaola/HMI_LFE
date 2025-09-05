@@ -130,12 +130,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (missing.length > 0) {
             if (typeof Swal !== 'undefined') {
                 Swal.fire({
-                    title: 'Unvollständig',
-                    text: 'Bitte füllen Sie alles aus, bevor Sie fortfahren.',
+                    title: 'Sie haben noch nicht alles beantwortet.',
+                    text: 'Bitte setzen Sie in jeder Zeile ein Kreuz, um fortzufahren.',
                     icon: 'warning',
                     background: 'whitesmoke',
                     color: '#000000',
-                    confirmButtonText: 'OK',
+                    confirmButtonText: 'Zurück zur Auswahl',
                     confirmButtonColor: '#e4e4e7',
                     allowOutsideClick: false,
                     allowEscapeKey: false,

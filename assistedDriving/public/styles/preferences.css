@@ -21,6 +21,8 @@ html {
 .swal2-confirm,
 .swal2-cancel {
     color: black;
+    font-weight: bold;
+    font-size: 1.3rem !important;
 }
 
 /* Header */
