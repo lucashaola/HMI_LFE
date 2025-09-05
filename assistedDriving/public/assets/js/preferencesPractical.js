@@ -1,23 +1,23 @@
 const assistanceSystems = [
     {
         name: 'Verkehrszeichenassistent',
-        description: 'Das System erkennt Verkehrszeichen, zeigt die entsprechenden Informationen im Fahrzeug an und passt die Fahrzeuggeschwindigkeit automatisch an.'
+        description: 'Erkennt Verkehrszeichen und zeigt die Informationen im Fahrzeug an. Kann die Geschwindigkeit entsprechend automatisch anpassen.'
     },
     {
         name: 'Abstandsregeltempomat',
-        description: 'Das System hält einen festgelegten Abstand zum Vorderfahrzeug, indem es automatisch bremst/beschleunigt und so die Geschwindigkeit an den Verkehrsfluss anpasst.'
+        description: 'Hält automatisch einen voreingestellten Abstand zum vorausfahrenden Fahrzeug durch Beschleunigen und Abbremsen.'
     },
     {
         name: 'Ampelerkennung',
-        description: 'Das System erkennt Ampelsignale, zeigt die entsprechenden Informationen im Fahrzeug an und reagiert selbst oder gibt dem Fahrer Fahranweisungen.'
+        description: 'Erkennt Ampeln und zeigt den Status im Fahrzeug an. Kann auf das Ampelsignal reagieren oder die Fahrperson entsprechend informieren.'
     },
     {
         name: 'Spurführungsassistent',
-        description: 'Das System hält das Fahrzeug in der Mitte der Fahrspur und lenkt das Fahrzeug unentwegt.'
+        description: 'Erkennt die Fahrspurmarkierungen und hält das Fahrzeg aktiv in der Spur, ohne die Fahrspur zu verlassen.'
     },
     {
         name: 'Notbremsassistent',
-        description: 'Das System erkennt, ob eine Kollisionsgefahr mit anderen Fahrzeugen besteht, warnt vor einer drohenden Kollision oder unterstützt den Fahrer aktiv durch Erhöhung des Bremsmoments.'
+        description: 'Erkennt Kollisionsgefahren und warnt davor. Bremst bei drohender Kollision automatisch zur Reduktion der Aufprallgeschwindigkeit.'
     }
 ];
 

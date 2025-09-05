@@ -11,21 +11,15 @@
     <script src="../../assets/vendor/sweetalert2.js"></script>
 </head>
 <body>
-<div class="header">
-    <h1 id="Titel">Score-Fragen</h1>
-    <button class="close-btn" onclick="window.location.href='/views/welcome'">
-        <img class="close-icon" src="../../assets/icons/shared/Close.svg" alt="">
-    </button>
-</div>
+<!--<div class="header"></div>-->
 <div class="main-content">
     <form id="preferencesForm" class="preferences-form">
         <section id="theoreticalSection">
-             <h4>Wie viel theoretisches Wissen (z.B über Artikel, Videos, etc.) haben Sie über die folgenden automatisierten Fahrfunktionen?</h4>
+             <h4>Wie viel <b>theoretisches Wissen</b> (z.B über Artikel, Videos, etc.) haben Sie über die folgenden automatisierten Fahrfunktionen?</h4>
             <table id="theoreticalTable" class="preferences-table"></table>
         </section>
     </form>
-    <div class="button-container">
-        <button type="button" onclick="window.location.href='/views/welcome'">Zurück</button>
+    <div class="button-container"> 
         <button type="button" id="nextPreferences">Weiter</button>
     </div>
 </div>
