@@ -190,13 +190,8 @@ async function fetchAndRedirectPreferences(code) {
         
         localStorage.setItem('preferences', JSON.stringify(prefs));
         localStorage.setItem('tutorialVisibility', JSON.stringify(visibility));
-        const landingAllowed = localStorage.getItem('landingAllowed') === '1';
-        if (!prefs || Object.keys(prefs).length === 0) {
-            // Skip auto-redirect while we intentionally show Landing once
-            if (!landingAllowed) {
-                window.location.href = '/views/preferencesTheoretical';
-            }
-        }
+        // Do not auto-redirect to preferences here; keep user on Welcome.
+        // Users can access preferences via explicit navigation (Landing button or menu).
     } catch (e) {
         console.error('Error fetching preferences:', e);
     }
@@ -320,9 +315,7 @@ function handlePreferencesRedirect(prefsString) {
         prefs = {};
     }
     localStorage.setItem('preferences', JSON.stringify(prefs));
-    if (Object.keys(prefs).length === 0) {
-        window.location.href = '/views/preferencesTheoretical';
-    }
+    // Do not redirect automatically; Welcome should remain the landing page for existing profiles.
 }
 
 if (typeof module !== 'undefined') {
