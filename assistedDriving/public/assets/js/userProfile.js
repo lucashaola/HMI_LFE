@@ -135,15 +135,18 @@ function generateIdentificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+// Load preferences for a user code and store in localStorage.
+// Do not auto-redirect to preferences here to ensure existing users
+// land on the welcome page consistently.
 async function handlePreferencesRedirect(code) {
     try {
         const res = await fetch(`/api/users/${code}/preferences`);
         const data = await res.json();
         const prefs = data.preferences ? JSON.parse(data.preferences) : [];
         localStorage.setItem('preferences', JSON.stringify(prefs));
-        if (!prefs || prefs.length === 0) {
-            window.location.href = '/views/preferences';
-        }
+        // Intentionally avoid redirecting to preferences here.
+        // Navigation to preferences is now only user-initiated
+        // (e.g., from landing or explicit button clicks).
     } catch (e) {
         console.error('Error fetching preferences:', e);
     }
